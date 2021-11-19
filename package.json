@@ -1,0 +1,25 @@
+{
+    "name": "laravel-vue-template",
+    "author": "Script",
+    "private": true,
+    "scripts": {
+        "watch": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "postcss": "^8.2.15",
+        "resolve-url-loader": "^4.0.0",
+        "rollup-plugin-copy": "^3.4.0",
+        "sass": "^1.32.13",
+        "vite": "2.3.1",
+        "vite-plugin-vue2": "^1.5.1",
+        "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "bootstrap": "^5.0.2",
+        "vue": "^2.6.12",
+        "vue-router": "^3.5.1",
+        "vuex": "^3.6.2"
+    }
+}
