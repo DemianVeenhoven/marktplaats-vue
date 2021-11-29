@@ -11,6 +11,9 @@ import router from "./router";
 
 import '../css/app.scss'
 
+// Vue.config.debug = true; 
+// Vue.config.devtools = true;
+
 new Vue({
     el: "#app",
     store,

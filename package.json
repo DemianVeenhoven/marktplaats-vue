@@ -7,10 +7,15 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "postcss": "^8.2.15",
+        "@tailwindcss/forms": "^0.2.1",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.1.0",
+        "postcss": "^8.2.1",
+        "postcss-import": "^12.0.1",
         "resolve-url-loader": "^4.0.0",
         "rollup-plugin-copy": "^3.4.0",
         "sass": "^1.32.13",
+        "tailwindcss": "^2.0.2",
         "vite": "2.3.1",
         "vite-plugin-vue2": "^1.5.1",
         "vue-template-compiler": "^2.6.12"
@@ -19,6 +24,7 @@
         "axios": "^0.21.1",
         "bootstrap": "^5.0.2",
         "vue": "^2.6.12",
+        "vue-multiselect": "^2.1.6",
         "vue-router": "^3.5.1",
         "vuex": "^3.6.2"
     }
