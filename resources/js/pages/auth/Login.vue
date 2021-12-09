@@ -1,11 +1,7 @@
 <template>
     <div>
-        <div v-if="errorMessage" class="error">
-            <br>
-
-            <p>{{errorMessage}}</p>
-
-            <br>
+        <div>
+            <b-modal v-model="modalShow" title="Error" hide-footer>{{getError}}</b-modal>
         </div>
 
         <form @submit.prevent="submit">
@@ -27,13 +23,12 @@
                 </div>
             </div>
 
-            <button type="button" @click="login">
-                Inloggen
-            </button>
-
             <br>
 
-            <router-link :to="{ name: 'auth.reset' }" tag="button">Change Password</router-link>
+            <div>
+                <b-button @click="login" variant="primary">Login</b-button>
+                <b-button :to="{ name: 'auth.reset' }" variant="primary">Change Password</b-button>
+            </div>
         </form>
     </div>
 </template>
@@ -47,19 +42,31 @@ export default {
             auth: {
                 email: "",
                 password: ""
-            }
+            },
+
+            modalShow: false
         };
     },
 
     computed: {
-        ...mapGetters({
-            errorMessage: "auth/getError"
-        })
+        getError() {
+            const errorMessage = this.$store.getters["auth/getError"];
+
+            if (errorMessage) {
+                this.modalShow = true;
+            }
+            
+            return errorMessage
+        }
     },
 
     methods: {
         login() {
             this.$store.dispatch("auth/login", this.auth);
+        },
+
+        showModal() {
+            this.$refs['error'].show()
         }
     }
 };

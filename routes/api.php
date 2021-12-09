@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\MessageChainController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -20,9 +22,13 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resource("ads", AdController::class);
 
+Route::post("ads/filter/categories/{category}", [AdController::class, "filter"]);
+
 Route::post("ads/{ad}/bid", [AdController::class, "bid"]);
 
-Route::post("ads/filter/categories/{category}", [AdController::class, "filter"]);
+Route::resource("message_chain", MessageChainController::class);
+
+Route::resource("message", MessageController::class);
 
 Route::resource("categories", CategoryController::class);
 

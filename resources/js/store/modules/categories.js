@@ -15,12 +15,12 @@ export default {
     actions: {
         async setAll({commit}) {
             const {data} = await axios.get("/api/categories")
-            commit("SET_ALL", data.data)
+            commit("SET_ALL", data)
         },
 
         async create({commit}, payload) {
             const {data} = await axios.post("/api/categories", payload);
-            commit("SET_ALL", data.data);
+            commit("SET_ALL", data);
         }
     },
 

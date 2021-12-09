@@ -6,9 +6,7 @@
             <label for="bid_amount">€</label>
             <input type="text" name="bid_amount" v-model="bid.amount" @keypress="onlyForCurrency($event)">
 
-            <br>
-
-            <button v-on:click="submitBid(adId)">Place bid</button>
+            <b-button @click="submitBid(adId)" variant="primary">Place bid</b-button>
         </div>
     </div>
 </template>

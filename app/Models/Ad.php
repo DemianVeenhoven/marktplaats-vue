@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bid;
+use App\Models\MessageChain;
 
 class ad extends Model
 {
@@ -29,5 +30,9 @@ class ad extends Model
     
     public function bid() {
         return $this->hasMany(Bid::class);
+    }
+
+    public function messageChain() {
+        return $this->hasMany(MessageChain::class);
     }
 }

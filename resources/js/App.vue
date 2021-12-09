@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Nav from "./Nav.vue";
 
 export default {
@@ -23,13 +24,17 @@ export default {
     },
 
     computed: {
-        user() {
-            return this.$store.getters["auth/getUser"];
-        },
+        ...mapGetters({
+            user: "auth/getUser",
+            isLoggedIn: "auth/getIsLoggedIn"
+        })
+        // user() {
+        //     return this.$store.getters["auth/getUser"];
+        // },
 
-        isLoggedIn() {
-            return this.$store.getters["auth/getIsLoggedIn"];
-        }
+        // isLoggedIn() {
+        //     return this.$store.getters["auth/getIsLoggedIn"];
+        // }
     }
 };
 </script>

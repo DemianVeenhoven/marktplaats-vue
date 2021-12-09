@@ -23,7 +23,7 @@
                 <div>
                     <label>Add a category</label>
                     <input type="text" id="category" v-model="category.name">
-                    <button @click="addCategory()">Add</button>
+                    <b-button @click="addCategory()" variant="primary">Add</b-button>
                 </div>
                 
                 <div>
@@ -54,7 +54,7 @@
 
             <br>
 
-            <button @click="submitAd()">Create ad</button>
+            <b-button @click="submitAd()" variant="primary">Create ad</b-button>
         </div>
     </div>
 </template>

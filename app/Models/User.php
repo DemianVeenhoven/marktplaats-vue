@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Ad;
 use App\Models\Bid;
+use App\Models\MessageChain;
+use App\Models\Message;
 
 class User extends Authenticatable
 {
@@ -49,5 +51,13 @@ class User extends Authenticatable
 
     public function bid() {
         return $this->hasMany(Bid::class);
+    }
+
+    public function messageChain() {
+        return $this->hasMany(MessageChain::class);
+    }
+
+    public function message() {
+        return $this->hasMany(Message::class);
     }
 }

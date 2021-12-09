@@ -1,11 +1,7 @@
 <template>
     <div>
-        <div v-if="errorMessage" class="error">
-            <br>
-
-            <p>{{errorMessage}}</p>
-
-            <br>
+        <div>
+            <b-modal v-model="modalShow" title="Error" hide-footer>{{getError}}</b-modal>
         </div>
 
         <form @submit.prevent="submit">
@@ -16,9 +12,11 @@
                 </div>
             </div>
 
-            <button type="button" @click="sendEmail">
-                Send email
-            </button>
+            <br>
+
+            <div>
+                <b-button @click="sendEmail" variant="primary">Send email</b-button>
+            </div>
         </form>
     </div>
 </template>
@@ -34,13 +32,21 @@ export default {
                 password: '',
                 password_confirmation: '',
             },
+
+            modalShow: false
         };
     },
 
     computed: {
-        ...mapGetters({
-            errorMessage: "auth/getError"
-        })
+        getError() {
+            const errorMessage = this.$store.getters["auth/getError"];
+
+            if (errorMessage) {
+                this.modalShow = true
+            }
+            
+            return errorMessage
+        }
     },
 
     methods: {

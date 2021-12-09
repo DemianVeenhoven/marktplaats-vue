@@ -5,6 +5,8 @@ import AdOverview from '../pages/ads/Overview.vue'
 import AdCreate from '../pages/ads/Create.vue'
 import AdEdit from '../pages/ads/Edit.vue'
 import AdBid from '../pages/ads/Bid.vue'
+import AllMessageChains from '../pages/messages/MyMessageChains.vue'
+import MessageChain from '../pages/messages/MessageChain.vue'
 import Login from '../pages/auth/Login.vue'
 import Register from '../pages/auth/Register.vue'
 import ResetPassword from '../pages/auth/Reset-Password.vue'
@@ -34,6 +36,16 @@ const router = new VueRouter({
             path: "/ads/:id/bid",
             component: AdBid,
             name: "ad.bid"
+        },
+        {
+            path: "/message_chain",
+            component: AllMessageChains,
+            name: "allMessageChains"
+        },
+        {
+            path: "/message_chain/:id",
+            component: MessageChain,
+            name: "messageChain"
         },
         {
             path: '/login',
