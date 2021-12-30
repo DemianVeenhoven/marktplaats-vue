@@ -12,11 +12,11 @@ export default {
         getAll: state => state.ads,
 
         getSingleAd: (state) => (ad_id) => {
-            return state.ads.find(item => item.id === ad_id)
+            return state.ads.find(ad => ad.id === ad_id)
         },
 
         getAdsByUser: (state) => (user_id) => {
-            return state.ads.filter(item => item.advertiser_id === user_id);
+            return state.ads.filter(ad => ad.advertiser_id === user_id);
         }
     },
 
@@ -42,16 +42,6 @@ export default {
             const {data} = await axios.delete("/api/ads/" + payload);
             commit("SET_ALL", data);
             router.push({name: "ad.overview"});
-        },
-
-        async filterCategories({commit, dispatch}, payload) {
-            if (payload != 0) {
-                const {data} = await axios.post("/api/ads/filter/categories/" + payload)
-                commit("SET_ALL", data);
-                router.push({name: "ad.overview"});
-            } else {
-                dispatch("setAll");
-            }
         },
 
         async bid({commit, dispatch}, payload) {

@@ -41,6 +41,8 @@
                     ></multiselect>
                 </div>
 
+                <br>
+
                 <div>
                     <label for="image">Upload image</label>
                     <input
@@ -56,6 +58,10 @@
 
             <b-button-group>
                 <b-button @click="submitEdit()" variant="primary">Edit</b-button>
+                <b-button
+                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                    variant="primary"
+                >Make ad premium</b-button>
                 <b-button @click="deleteAd()" variant="danger">Delete</b-button>
             </b-button-group>
         </div>

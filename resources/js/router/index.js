@@ -5,10 +5,12 @@ import AdOverview from '../pages/ads/Overview.vue'
 import AdCreate from '../pages/ads/Create.vue'
 import AdEdit from '../pages/ads/Edit.vue'
 import AdBid from '../pages/ads/Bid.vue'
+import AdPremium from '../pages/ads/Premium.vue'
 import AllMessageChains from '../pages/messages/MyMessageChains.vue'
 import MessageChain from '../pages/messages/MessageChain.vue'
 import Login from '../pages/auth/Login.vue'
 import Register from '../pages/auth/Register.vue'
+import SendResetLink from '../pages/auth/Reset-link.vue'
 import ResetPassword from '../pages/auth/Reset-Password.vue'
 import Account from "../pages/Account.vue"
 
@@ -36,6 +38,11 @@ const router = new VueRouter({
             path: "/ads/:id/bid",
             component: AdBid,
             name: "ad.bid"
+        },
+        {
+            path: "/ads/:id/premium",
+            component: AdPremium,
+            name: "ad.premium"
         },
         {
             path: "/message_chain",
@@ -72,7 +79,16 @@ const router = new VueRouter({
             },
         },
         {
-            path: '/resetPassword',
+            path: '/api/reset-password',
+            component: SendResetLink,
+            name: 'auth.sendLink',
+            meta: {
+                shouldBeLoggedOut: true,
+            },
+           
+        },
+        {
+            path: '/api/reset-password/:token',
             component: ResetPassword,
             name: 'auth.reset',
             meta: {
@@ -82,9 +98,11 @@ const router = new VueRouter({
         {
             path: '*',
             component: AdOverview
-        }
+        },
     ]
 });
+
+// /reset-password/{token}
 
 // router.beforeEach(({meta}, from, next) => {
 //     const isLoggedIn = store.getters['auth/getIsLoggedIn'];

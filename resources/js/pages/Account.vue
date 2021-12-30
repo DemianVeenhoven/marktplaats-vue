@@ -26,6 +26,11 @@
                         variant="primary"
                     >Edit</b-button>
 
+                    <b-button
+                        :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                        variant="primary"
+                    >Make ad premium</b-button>
+
                     <b-card-text>
                         categories
 
@@ -35,6 +40,7 @@
                     </b-card-text>
 
                     <b-button 
+                        v-if="activeMessageChain(ad.id)" 
                         :to="{ name: 'messageChain', params: {id: activeMessageChain(ad.id)}}"
                         variant="primary"
                     >Show message chain</b-button>
@@ -98,7 +104,7 @@ export default {
        activeMessageChain(payload) {
             const userMessageChains = this.$store.getters["messages/getMessageChainsByUser"](this.user.id)
             const activeChain = userMessageChains.find(item => item.ad_id === payload);
-
+            console.log(activeChain);
             if (activeChain) {
                 return activeChain.id;
             } else {

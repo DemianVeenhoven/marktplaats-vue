@@ -106,13 +106,19 @@ export default {
 
         submitAd() {
             //note to self: formData for image
+            const formData = new FormData();
+
             this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
 
-            if (this.ad.image == null) {
-                this.$delete(this.ad, "image");
+            formData.append("title", this.ad.title);
+            formData.append("description", this.ad.description);
+            formData.append("categories", this.ad.categories);
+
+            if (this.ad.image != null) {
+                formData.append("image", this.ad.image);
             }
 
-            this.$store.dispatch("ads/create", this.ad);
+            this.$store.dispatch("ads/create", formData);
         },
 
         addCategory() {
@@ -121,8 +127,6 @@ export default {
     }
 }
 </script>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
 

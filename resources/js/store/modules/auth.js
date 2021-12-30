@@ -95,7 +95,20 @@ export const auth = {
                         commit("SET_ERROR", err.response.data.message)
                     })
             })
-        }
+        },
+
+        async resetPassword({ commit, dispatch }, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post("/api/reset-password", payload)
+                    .then((response) => {
+                        resolve(response)
+                        router.push({ name: "auth.login" });
+                    })
+                    .catch((err) => {
+                        commit("SET_ERROR", err.response.data.message)
+                    })
+            }) 
+        },
     },
 
     mutations: {

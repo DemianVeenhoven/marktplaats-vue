@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resource("ads", AdController::class);
 
-Route::post("ads/filter/categories/{category}", [AdController::class, "filter"]);
-
 Route::post("ads/{ad}/bid", [AdController::class, "bid"]);
 
 Route::resource("message_chain", MessageChainController::class);

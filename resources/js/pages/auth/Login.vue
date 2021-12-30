@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <b-modal v-model="modalShow" title="Error" hide-footer>{{getError}}</b-modal>
+            <b-toast v-model="showError" title="Error" variant="danger">{{getError}}</b-toast>
         </div>
 
         <form @submit.prevent="submit">
@@ -27,7 +27,7 @@
 
             <div>
                 <b-button @click="login" variant="primary">Login</b-button>
-                <b-button :to="{ name: 'auth.reset' }" variant="primary">Change Password</b-button>
+                <b-button :to="{ name: 'auth.sendLink' }" variant="primary">Change Password</b-button>
             </div>
         </form>
     </div>
@@ -44,7 +44,7 @@ export default {
                 password: ""
             },
 
-            modalShow: false
+            showError: false
         };
     },
 
@@ -53,7 +53,7 @@ export default {
             const errorMessage = this.$store.getters["auth/getError"];
 
             if (errorMessage) {
-                this.modalShow = true;
+                this.showError = true;
             }
             
             return errorMessage
@@ -63,10 +63,6 @@ export default {
     methods: {
         login() {
             this.$store.dispatch("auth/login", this.auth);
-        },
-
-        showModal() {
-            this.$refs['error'].show()
         }
     }
 };

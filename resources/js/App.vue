@@ -28,13 +28,8 @@ export default {
             user: "auth/getUser",
             isLoggedIn: "auth/getIsLoggedIn"
         })
-        // user() {
-        //     return this.$store.getters["auth/getUser"];
-        // },
-
-        // isLoggedIn() {
-        //     return this.$store.getters["auth/getIsLoggedIn"];
-        // }
     }
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

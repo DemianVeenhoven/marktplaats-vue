@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <b-modal v-model="modalShow" title="Error" hide-footer>{{getError}}</b-modal>
+            <b-toast v-model="showError" title="Error" variant="danger">{{getError}}</b-toast>
         </div>
 
         <form @submit.prevent="submit">
@@ -54,7 +54,7 @@ export default {
                 password_confirmation: '',
             },
 
-            modalShow: false
+            showError: false
         };
     },
 
@@ -63,7 +63,7 @@ export default {
             const errorMessage = this.$store.getters["auth/getError"];
 
             if (errorMessage) {
-                this.modalShow = true
+                this.showError = true
             }
             
             return errorMessage
@@ -79,7 +79,5 @@ export default {
 </script>
 
 <style scoped>
-    .error {
-        background-color: red; 
-    }
+
 </style>

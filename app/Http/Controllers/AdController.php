@@ -117,14 +117,6 @@ class AdController extends Controller
         return AdResource::collection(Ad::orderBy("created_at", "desc")->get());
     }
 
-    public function filter(Request $request, Category $category) {
-        return AdResource::collection(
-            Ad::whereHas("category", function($q) use($category) {
-                $q->whereIn("id", $category);
-            })
-            ->get());
-    }
-
     public function bid(StoreBid $request, Ad $ad) {
         $validated = $request->validated();
         $bid = new Bid();

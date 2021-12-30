@@ -4,7 +4,11 @@
             <b-toast v-model="showError" title="Error" variant="danger">{{getError}}</b-toast>
         </div>
 
-        <form @submit.prevent="submit">
+        <div v-if="emailSend">
+            <p>An email with a reset link has been send to {{auth.email}}</p>
+        </div>
+
+        <form @submit.prevent="submit" v-else>
             <div >
                 <label for="inputEmail">Email</label>
                 <div>
@@ -12,23 +16,10 @@
                 </div>
             </div>
 
-            <div>
-                <label for="inputPassword">Password (min. 8 characters)</label>
-                <div>
-                    <input id="inputPassword" v-model="auth.password" type="password"/>
-                </div>
-            </div>
-            <div>
-                <label for="inputPasswordConfirmation">Password Confirmation</label>
-                <div>
-                    <input id="inputPasswordConfirmation" v-model="auth.password_confirmation" type="password"/>
-                </div>
-            </div>
-
             <br>
 
             <div>
-                <b-button @click="reset" variant="primary">Reset password</b-button>
+                <b-button @click="sendEmail" variant="primary">Send email</b-button>
             </div>
         </form>
     </div>
@@ -38,20 +29,17 @@
 import { mapGetters } from "vuex";
 
 export default {
-    created() {
-        this.setToken();
-    },
-
     data() {
         return {
             auth: {
-                token: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
             },
 
-            showError: false
+            showError: false,
+
+            emailSend: false
         };
     },
 
@@ -68,15 +56,13 @@ export default {
     },
 
     methods: {
-        setToken() {
-            this.auth.token = this.$route.params.token;
-        },
+        sendEmail() {
+            this.$store.dispatch('auth/sendEmail', this.auth);
 
-        reset() {
-            this.$store.dispatch('auth/resetPassword', this.auth);
+            this.emailSend = true;
         },
     },
-};
+}
 </script>
 
 <style scoped>
