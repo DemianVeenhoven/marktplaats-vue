@@ -93,6 +93,12 @@
                                     variant="primary"
                                 >Edit</b-button>
 
+                                <b-button
+                                    v-if="ad.advertiser_id == user.id && !ad.premium"
+                                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                                    variant="success"
+                                >Upgrade to premium</b-button>
+
                                 <b-card-text>
                                     categories:
 

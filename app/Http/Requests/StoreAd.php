@@ -36,7 +36,8 @@ class StoreAd extends FormRequest
             'title' => 'required',
             'description' => 'required',
             "categories" => "array|required",
-            "image" => "file"
+            "image" => "file",
+            "premium" => "boolean"
         ];
     }
 }

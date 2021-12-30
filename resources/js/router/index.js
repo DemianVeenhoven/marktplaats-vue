@@ -6,6 +6,7 @@ import AdCreate from '../pages/ads/Create.vue'
 import AdEdit from '../pages/ads/Edit.vue'
 import AdBid from '../pages/ads/Bid.vue'
 import AdPremium from '../pages/ads/Premium.vue'
+import AdFee from '../pages/ads/Fee.vue'
 import AllMessageChains from '../pages/messages/MyMessageChains.vue'
 import MessageChain from '../pages/messages/MessageChain.vue'
 import Login from '../pages/auth/Login.vue'
@@ -43,6 +44,11 @@ const router = new VueRouter({
             path: "/ads/:id/premium",
             component: AdPremium,
             name: "ad.premium"
+        },
+        {
+            path: "/ads/:id/fee",
+            component: AdFee,
+            name: "ad.fee"
         },
         {
             path: "/message_chain",

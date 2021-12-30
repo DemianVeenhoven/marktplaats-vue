@@ -27,6 +27,7 @@
                     >Edit</b-button>
 
                     <b-button
+                        v-if="!ad.premium"
                         :to="{ name: 'ad.premium', params: {id: ad.id}}" 
                         variant="primary"
                     >Make ad premium</b-button>

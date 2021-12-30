@@ -24,6 +24,8 @@ Route::resource("ads", AdController::class);
 
 Route::post("ads/{ad}/bid", [AdController::class, "bid"]);
 
+Route::get("ads/{ad}/upgrade", [AdController::class, "upgrade"]);
+
 Route::resource("message_chain", MessageChainController::class);
 
 Route::resource("message", MessageController::class);

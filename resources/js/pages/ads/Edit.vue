@@ -58,13 +58,17 @@
 
             <b-button-group>
                 <b-button @click="submitEdit()" variant="primary">Edit</b-button>
+
                 <b-button
+                    v-if="!ad.premium"
                     :to="{ name: 'ad.premium', params: {id: ad.id}}" 
-                    variant="primary"
-                >Make ad premium</b-button>
+                    variant="success"
+                >Upgrade to premium</b-button>
+                
                 <b-button @click="deleteAd()" variant="danger">Delete</b-button>
             </b-button-group>
         </div>
+        <p>{{ad}}</p>
     </div>
 </template>
 
@@ -129,7 +133,11 @@ export default {
         },
 
         deleteAd() {
-            this.$store.dispatch("ads/remove", this.ad.id);
+            if(!this.ad.bids.length || this.ad.bids[0].amount < 500) {
+                this.$store.dispatch("ads/remove", this.ad.id);
+            } else {
+                this.$router.push({name: "ad.fee"});
+            }
         }
     }
 }

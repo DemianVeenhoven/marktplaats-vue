@@ -21,7 +21,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        return AdResource::collection(Ad::orderBy("created_at", "desc")->get());
+        return AdResource::collection(Ad::orderBy("premium", "desc")->orderBy("created_at", "desc")->get());
     }
 
     /**
@@ -55,8 +55,6 @@ class AdController extends Controller
         $ad->save();
 
         $ad->category()->sync($validated["categories"]);
-
-        return AdResource::collection(Ad::orderBy("created_at", "desc")->get());
     }
 
     /**
@@ -99,8 +97,6 @@ class AdController extends Controller
 
         $ad->update($validated);
         $ad->category()->sync($validated["categories"]);
-
-        return AdResource::collection(Ad::orderBy("created_at", "desc")->get());
     }
 
     /**
@@ -113,8 +109,6 @@ class AdController extends Controller
     {
         $ad->category()->sync([]);
         $ad->delete();
-
-        return AdResource::collection(Ad::orderBy("created_at", "desc")->get());
     }
 
     public function bid(StoreBid $request, Ad $ad) {
@@ -125,5 +119,10 @@ class AdController extends Controller
         $bid->ad_id = $ad->id;
         $bid->user_id = Auth::id();
         $bid->save();
+    }
+
+    public function upgrade(Ad $ad) {
+        $ad->premium = 1;
+        $ad->save();
     }
 }

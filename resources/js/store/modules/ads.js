@@ -26,26 +26,32 @@ export default {
             commit("SET_ALL", data);
         },
 
-        async create({commit}, payload) {
-            const {data} = await axios.post("/api/ads", payload);
-            commit("SET_ALL", data);
+        async create({commit, dispatch}, payload) {
+            await axios.post("/api/ads", payload);
+            dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async edit({commit}, payload) {
-            const {data} = await axios.put("/api/ads/" + payload.id, payload);
-            commit("SET_ALL", data);
+        async edit({commit, dispatch}, payload) {
+            await axios.put("/api/ads/" + payload.id, payload);
+            dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async remove({commit}, payload) {
-            const {data} = await axios.delete("/api/ads/" + payload);
-            commit("SET_ALL", data);
+        async remove({commit, dispatch}, payload) {
+            await axios.delete("/api/ads/" + payload);
+            dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
         async bid({commit, dispatch}, payload) {
             await axios.post("/api/ads/" + payload.ad_id + "/bid", payload);
+            dispatch("setAll");
+            router.push({name: "ad.overview"});
+        },
+
+        async upgrade({commit, dispatch}, payload) {
+            await axios.get("/api/ads/" + payload + "/upgrade")
             dispatch("setAll");
             router.push({name: "ad.overview"});
         }
