@@ -18,7 +18,7 @@ class CreateBidsTable extends Migration
             $table->unsignedBigInteger('user_id');
                 $table->foreign("user_id")->references("id")->on("users");
             $table->unsignedBigInteger('ad_id');
-                $table->foreign("ad_id")->references("id")->on("ads");
+                $table->foreign("ad_id")->references("id")->on("ads")->onDelete('cascade');
             $table->float("amount");
             $table->timestamps();
         });

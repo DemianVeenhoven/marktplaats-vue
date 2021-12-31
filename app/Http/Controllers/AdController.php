@@ -96,6 +96,7 @@ class AdController extends Controller
         }
 
         $ad->update($validated);
+
         $ad->category()->sync($validated["categories"]);
     }
 

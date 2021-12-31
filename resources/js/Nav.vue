@@ -3,8 +3,7 @@
         <b-nav tabs justified v-if="isLoggedIn" class="nav">
             <b-nav-item :to="{ name: 'ad.overview' }">All ads</b-nav-item>
             <b-nav-item :to="{ name: 'ad.create' }">Create a new ad</b-nav-item>
-            <!-- My ads was My account but it only shows the ads so I renamed it in website, I didn't rename it in code because I use "account" a lot. Might change it in the future -->
-            <b-nav-item :to="{ name: 'account' }">My ads</b-nav-item>
+            <b-nav-item :to="{ name: 'account' }">My account</b-nav-item>
             <b-nav-item :to="{ name: 'allMessageChains' }">Messages</b-nav-item>
             <b-nav-item href="#" @click="logout" variant="outline-primary">Logout</b-nav-item>
         </b-nav>

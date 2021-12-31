@@ -33,7 +33,7 @@ export default {
         },
 
         async edit({commit, dispatch}, payload) {
-            await axios.put("/api/ads/" + payload.id, payload);
+            await axios.put("/api/ads/" + payload.id, payload.formData);
             dispatch("setAll");
             router.push({name: "ad.overview"});
         },

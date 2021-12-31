@@ -56,6 +56,10 @@
 
             <br>
 
+            <p>Upon selling something for €500.00 or more a %10 fee needs to be paid</p>
+
+            <br>
+
             <b-button-group>
                 <b-button @click="submitEdit()" variant="primary">Edit</b-button>
 
@@ -68,7 +72,6 @@
                 <b-button @click="deleteAd()" variant="danger">Delete</b-button>
             </b-button-group>
         </div>
-        <p>{{ad}}</p>
     </div>
 </template>
 
@@ -123,13 +126,22 @@ export default {
         },
 
         submitEdit() {
+            let payload = {id: this.adId};
+            const formData = new FormData();
+
             this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
 
-            if (this.ad.image == null) {
-                this.$delete(this.ad, "image");
-            }
+            formData.append("title", this.ad.title);
+            formData.append("description", this.ad.description);
+            formData.append("categories", this.ad.categories);
 
-            this.$store.dispatch("ads/edit", this.ad);
+            if (this.ad.image != null) {
+                formData.append("image", this.ad.image);
+            }
+            
+            payload.formData = formData;
+
+            this.$store.dispatch("ads/edit", payload);
         },
 
         deleteAd() {

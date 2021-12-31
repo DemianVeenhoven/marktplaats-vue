@@ -54,6 +54,10 @@
 
             <br>
 
+            <p>Upon selling something for €500.00 or more a %10 fee needs to be paid</p>
+
+            <br>
+
             <b-button @click="submitAd()" variant="primary">Create ad</b-button>
         </div>
     </div>
@@ -117,7 +121,7 @@ export default {
             if (this.ad.image != null) {
                 formData.append("image", this.ad.image);
             }
-
+            
             this.$store.dispatch("ads/create", formData);
         },
 

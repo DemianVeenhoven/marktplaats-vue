@@ -12,6 +12,13 @@
                 </div>
             </div>
 
+            <!-- <div>
+                <label for="inputPostalCode">Postal code</label>
+                <div>
+                    <input id="inputPostalCode" v-model="auth.postal_code" type="text"/>
+                </div>
+            </div> -->
+
             <div >
                 <label for="inputEmail">Email</label>
                 <div>
@@ -49,6 +56,7 @@ export default {
         return {
             auth: {
                 user_name: '',
+                // postal_code: "",
                 email: '',
                 password: '',
                 password_confirmation: '',

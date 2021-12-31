@@ -108,13 +108,4 @@ const router = new VueRouter({
     ]
 });
 
-// /reset-password/{token}
-
-// router.beforeEach(({meta}, from, next) => {
-//     const isLoggedIn = store.getters['auth/getIsLoggedIn'];
-//     if (meta.shouldBeLoggedIn && !isLoggedIn) next({name: 'auth.login'});
-//     if (meta.shouldBeLoggedOut && isLoggedIn) next({name: 'account'});
-//     next();
-// });
-
 export default router;

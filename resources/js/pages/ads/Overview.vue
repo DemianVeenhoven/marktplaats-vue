@@ -175,7 +175,7 @@ export default {
 
             adsPerPage: 5,
 
-            loadingComplete: true,
+            loadingComplete: false,
 
             categoryFilter: [],
 
