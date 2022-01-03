@@ -33,6 +33,7 @@ export const auth = {
         },
 
         async login({ commit, dispatch }, payload) {
+            // TODO :: old style, can use await here
             return new Promise((resolve, reject) => {
                 axios.post("/api/login", payload)
                     .then((response) => {
@@ -49,6 +50,7 @@ export const auth = {
         async logout({ commit, dispatch }) {
             await axios.get("/api/logout");
             commit("SET_LOGGEDIN", false);
+            // TODO :: why dispatch user?
             dispatch("setUser");
             router.push({ name: "ad.overview" }).catch(err => {
                 if (
@@ -61,6 +63,7 @@ export const auth = {
         },
 
         async register({ commit, dispatch }, payload) {
+            // TODO :: old style, can use await here
             return new Promise((resolve, reject) => {
                 axios.post("/api/register", payload)
                     .then((response) => {
@@ -80,10 +83,11 @@ export const auth = {
                             commit("SET_ERROR", "That username is already in use.");
                         }
                     })
-            }) 
+            })
         },
 
         async sendEmail({commit}, payload) {
+            // TODO :: old style, can use await here
             return new Promise((resolve, reject) => {
                 axios.post("/api/forgot-password", payload)
                     .then((response) => {
@@ -98,6 +102,7 @@ export const auth = {
         },
 
         async resetPassword({ commit, dispatch }, payload) {
+            // TODO :: old style, can use await here
             return new Promise((resolve, reject) => {
                 axios.post("/api/reset-password", payload)
                     .then((response) => {
@@ -107,7 +112,7 @@ export const auth = {
                     .catch((err) => {
                         commit("SET_ERROR", err.response.data.message)
                     })
-            }) 
+            })
         },
     },
 

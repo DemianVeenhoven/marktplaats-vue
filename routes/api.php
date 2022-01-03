@@ -44,4 +44,6 @@ Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::post('register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
+// TODO :: some routes are in the auth.php and in this file. Cleanup
+
 require __DIR__.'/auth.php';

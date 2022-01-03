@@ -13,7 +13,7 @@
 
             <div>
                 <b-button @click="sendMessage()" variant="primary">Send</b-button>
-                <b-button 
+                <b-button
                     v-if="getMessageChain.advertiser_id == user.id"
                     @click="deleteChain()"
                     variant="danger"
@@ -62,6 +62,7 @@ export default {
         }),
 
         messageChainId() {
+            // TODO :: const
             let chain_id = parseInt(this.$route.params.id);
             this.new_message.chain_id = chain_id;
             return chain_id;
@@ -70,6 +71,7 @@ export default {
         getMessageChain() {
             const messageChain = this.$store.getters["messages/getSingleMessageChain"](this.messageChainId)
 
+            // TODO :: refactor, no need for the else
             if(!messageChain) {
                 return {}
             } else {
@@ -80,6 +82,7 @@ export default {
         getMessages() {
             const messages = this.$store.getters["messages/getMessagesByChain"](this.messageChainId);
 
+            // TODO :: refactor, no need for the else
             if (!messages) {
                 return []
             } else {
@@ -90,6 +93,7 @@ export default {
 
     methods: {
         sendMessage() {
+            // TODO :: backend should handle the user
             this.new_message.user_id = this.user.id;
             this.$store.dispatch("messages/createMessage", this.new_message);
         },

@@ -45,18 +45,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // TODO :: pluralize, cause one ad has many ads
     public function ad() {
         return $this->hasMany(Ad::class);
     }
 
+    // TODO :: pluralize, cause one ad has many bids
     public function bid() {
         return $this->hasMany(Bid::class);
     }
 
+    // TODO :: pluralize, cause one ad has many messageChains
     public function messageChain() {
         return $this->hasMany(MessageChain::class);
     }
 
+    // TODO :: pluralize, cause one ad has many messages
     public function message() {
         return $this->hasMany(Message::class);
     }

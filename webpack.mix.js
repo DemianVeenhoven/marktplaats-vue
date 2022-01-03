@@ -1,3 +1,4 @@
+// TODO :: file can be removed, cause you are using vite instead of webpack
 const mix = require('laravel-mix');
 
 /*

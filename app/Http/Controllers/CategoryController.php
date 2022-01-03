@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
-use App\Models\Category; 
+use App\Models\Category;
 use App\Http\Requests\StoreCategory;
 
 class CategoryController extends Controller
@@ -38,6 +38,7 @@ class CategoryController extends Controller
     public function store(StoreCategory $request)
     {
         $validated = $request->validated();
+        // TODO :: can use Category::create if fillable in the model is filled in correct
         $category = new Category();
 
         $category->fill($validated);

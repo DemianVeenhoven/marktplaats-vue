@@ -4,7 +4,7 @@
 
         <div>
             <h2>My ads</h2>
-            
+
             <div v-if="!getAds.length">
                 <p>You do not have any active ads.</p>
             </div>
@@ -21,14 +21,14 @@
 
                     <b-card-text>Placed on: {{ad.created_at}}</b-card-text>
 
-                    <b-button 
-                        :to="{ name: 'ad.edit', params: {id: ad.id}}" 
+                    <b-button
+                        :to="{ name: 'ad.edit', params: {id: ad.id}}"
                         variant="primary"
                     >Edit</b-button>
 
                     <b-button
                         v-if="!ad.premium"
-                        :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                        :to="{ name: 'ad.premium', params: {id: ad.id}}"
                         variant="primary"
                     >Make ad premium</b-button>
 
@@ -40,8 +40,8 @@
                         </div>
                     </b-card-text>
 
-                    <b-button 
-                        v-if="activeMessageChain(ad.id)" 
+                    <b-button
+                        v-if="activeMessageChain(ad.id)"
                         :to="{ name: 'messageChain', params: {id: activeMessageChain(ad.id)}}"
                         variant="primary"
                     >Show message chain</b-button>
@@ -79,8 +79,10 @@ export default {
        }),
 
        getAccount() {
+            // TODO :: const
             let myAccount = this.$store.getters["auth/getUser"];
 
+            // TODO :: refactor, no need for the else
             if (myAccount) {
                 this.account = JSON.parse(JSON.stringify(myAccount));
 
@@ -93,6 +95,7 @@ export default {
         getAds() {
             const myAds = this.$store.getters["ads/getAdsByUser"](this.getAccount.id);
 
+            // TODO :: refactor, no need for the else
             if(!myAds) {
                 return []
             } else {
@@ -106,6 +109,7 @@ export default {
             const userMessageChains = this.$store.getters["messages/getMessageChainsByUser"](this.user.id)
             const activeChain = userMessageChains.find(item => item.ad_id === payload);
             console.log(activeChain);
+            // TODO :: refactor, no need for the else
             if (activeChain) {
                 return activeChain.id;
             } else {

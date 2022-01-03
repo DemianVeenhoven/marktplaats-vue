@@ -1,3 +1,4 @@
+// TODO :: are you using tailwind? doesn't look like it
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {

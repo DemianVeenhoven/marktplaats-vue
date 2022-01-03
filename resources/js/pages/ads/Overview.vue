@@ -5,7 +5,7 @@
 
             <div>
                 <b-form-input type="search" v-model="searchBar" placeholder="Search"></b-form-input>
-                
+
                 <br>
 
                 <b-button @click="searchBar = null" variant="primary">Clear searchbar</b-button>
@@ -45,15 +45,15 @@
 
             <div class="filter_categories">
                 <multiselect
-                    v-model="multiselectArray" 
-                    :options="categories" 
-                    :multiple="true" 
-                    :close-on-select="false" 
-                    :clear-on-select="false" 
-                    placeholder="Filter by categories" 
-                    label="name" 
-                    track-by="id" 
-                    :preselect-first="false" 
+                    v-model="multiselectArray"
+                    :options="categories"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    placeholder="Filter by categories"
+                    label="name"
+                    track-by="id"
+                    :preselect-first="false"
                     :searchable="false"
                     @input="setCategoryFilter"
                 ></multiselect>
@@ -87,15 +87,15 @@
 
                                 <b-card-text>Placed on: {{ad.created_at}}</b-card-text>
 
-                                <b-button 
+                                <b-button
                                     v-if="ad.advertiser_id == user.id"
-                                    :to="{ name: 'ad.edit', params: {id: ad.id}}" 
+                                    :to="{ name: 'ad.edit', params: {id: ad.id}}"
                                     variant="primary"
                                 >Edit</b-button>
 
                                 <b-button
                                     v-if="ad.advertiser_id == user.id && !ad.premium"
-                                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                                    :to="{ name: 'ad.premium', params: {id: ad.id}}"
                                     variant="success"
                                 >Upgrade to premium</b-button>
 
@@ -107,20 +107,20 @@
                                     </b-list-group>
                                 </b-card-text>
                                 <!-- I don't think this bid button is a good solution -->
-                                <b-button 
-                                    v-if="ad.advertiser_id != user.id && user.id != null" 
-                                    :to="{ name: 'ad.bid', params: {id: ad.id}}" 
+                                <b-button
+                                    v-if="ad.advertiser_id != user.id && user.id != null"
+                                    :to="{ name: 'ad.bid', params: {id: ad.id}}"
                                     variant="primary"
                                 >Place a bid</b-button>
 
-                                <b-button 
-                                    v-if="ad.advertiser_id != user.id && user.id != null && !activeMessageChain(ad.id)" 
+                                <b-button
+                                    v-if="ad.advertiser_id != user.id && user.id != null && !activeMessageChain(ad.id)"
                                     @click="newMessageChain(ad)"
                                     variant="primary"
                                 >Message advertiser</b-button>
 
-                                <b-button 
-                                    v-if="activeMessageChain(ad.id)" 
+                                <b-button
+                                    v-if="activeMessageChain(ad.id)"
                                     :to="{ name: 'messageChain', params: {id: activeMessageChain(ad.id)}}"
                                     variant="primary"
                                 >Show message chain</b-button>
@@ -130,7 +130,7 @@
 
                                     <b-list-group  v-for="bid in ad.bids" :key="bid.id" class="bids">
                                         <b-list-group-item>
-                                            €{{bid.amount}} 
+                                            €{{bid.amount}}
                                             By: {{bid.bidder}}
                                             Placed on: {{bid.created_at}}
                                         </b-list-group-item>
@@ -205,10 +205,11 @@ export default {
         }),
 
         ads() {
+            // TODO :: refactor. No need for all the if elses. No need for the duplications
             if (this.categoryFilter.length) {
                 function hasCategories(categories) {
                     return function(element) {
-                        return element.categories.filter(category => categories.includes(category.id)).length == categories.length 
+                        return element.categories.filter(category => categories.includes(category.id)).length == categories.length
                     }
                 }
 
@@ -233,7 +234,7 @@ export default {
                     // return all ads
                     return this.sliceAds(this.allAds);
                 }
-            }   
+            }
         },
     },
 
@@ -247,6 +248,7 @@ export default {
         },
 
         setCategoryFilter() {
+            // TODO :: refactor, no need for the else
             if (this.multiselectArray.length) {
                 this.categoryFilter = [];
                 this.multiselectArray.forEach(item => this.categoryFilter.push(item.id));
@@ -271,14 +273,16 @@ export default {
             const userMessageChains = this.$store.getters["messages/getMessageChainsByUser"](this.user.id)
             const activeChain = userMessageChains.find(item => item.ad_id === payload);
 
+            // TODO :: refactor, no need for the else
             if (activeChain) {
                 return activeChain.id;
             } else {
                 return false;
             }
         },
-        
+
         adsLoaded() {
+            // TODO :: use arrow function, then no need for the bind this
             setTimeout(function() {this.loadingComplete = true;}.bind(this), (this.adsPerPage * 400));
         },
 

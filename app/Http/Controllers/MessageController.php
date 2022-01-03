@@ -41,6 +41,7 @@ class MessageController extends Controller
         $message = new Message();
 
         $message->fill($validated);
+        // TODO :: shouldn't this always be the logged in user?
         $message->user_id = $validated["user_id"];
         $message->chain_id = $validated["chain_id"];
         $message->save();

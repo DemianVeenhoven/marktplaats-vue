@@ -19,7 +19,8 @@ class MessageChain extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
+    // TODO :: pluralize, cause one ad has many messages
     public function message() {
         return $this->hasMany(Message::class);
     }

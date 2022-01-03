@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>My message chains</h1>
-        
+
         <div v-if="!getMessageChains.length">
             <p>You do not have any ongoing message chains.</p>
         </div>
@@ -14,7 +14,7 @@
                 <b-card-text>Advertiser: {{chain.advertiser}}</b-card-text>
 
                 <b-card-text>Bidder: {{chain.bidder}}</b-card-text>
-                
+
                 <b-card-text>Last message:</b-card-text>
 
                 <div class="message">
@@ -27,13 +27,13 @@
 
                 <b-button :to="{ name: 'messageChain', params: {id: chain.id}}" variant="success">Go to message chain</b-button>
 
-                <b-button 
-                    v-if="chain.advertiser_id == user.id" 
-                    @click="deleteChain(chain.id)" 
+                <b-button
+                    v-if="chain.advertiser_id == user.id"
+                    @click="deleteChain(chain.id)"
                     variant="danger"
                 >Delete</b-button>
             </b-card>
-            
+
             <br>
         </div>
     </div>
@@ -54,11 +54,12 @@ export default {
         }),
 
         getMessageChains() {
+            // TODO :: refactor, no need for the else
             if (this.user.id) {
                 return this.$store.getters["messages/getMessageChainsByUser"](this.user.id);
             } else {
                 return []
-            }  
+            }
         }
     },
 
@@ -67,6 +68,7 @@ export default {
             const messages = this.$store.getters["messages/getMessagesByChain"](chain_id);
             const lastIndex = messages.length - 1
 
+            // TODO :: refactor, no need for the else
             if (!messages) {
                 return {}
             } else {

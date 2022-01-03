@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- TODO :: no need for this here -->
         <h1>Edit {{this.getAd.title}}</h1>
 
         <div>
@@ -25,18 +26,18 @@
                     <input type="text" id="category" v-model="category.name">
                     <b-button @click="addCategory()" variant="primary">Add</b-button>
                 </div>
-                
+
                 <div>
                     <multiselect
-                        v-model="multiselectArray" 
-                        :options="categories" 
-                        :multiple="true" 
-                        :close-on-select="false" 
-                        :clear-on-select="false" 
-                        placeholder="Pick some" 
-                        label="name" 
-                        track-by="id" 
-                        :preselect-first="false" 
+                        v-model="multiselectArray"
+                        :options="categories"
+                        :multiple="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        placeholder="Pick some"
+                        label="name"
+                        track-by="id"
+                        :preselect-first="false"
                         :searchable="false"
                     ></multiselect>
                 </div>
@@ -65,10 +66,10 @@
 
                 <b-button
                     v-if="!ad.premium"
-                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                    :to="{ name: 'ad.premium', params: {id: ad.id}}"
                     variant="success"
                 >Upgrade to premium</b-button>
-                
+
                 <b-button @click="deleteAd()" variant="danger">Delete</b-button>
             </b-button-group>
         </div>
@@ -102,12 +103,14 @@ export default {
         },
 
         getAd() {
+            // TODO :: const
             let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
             if(singleAd) {
                 this.ad = JSON.parse(JSON.stringify(singleAd));
                 this.ad.categories = [];
                 return JSON.parse(JSON.stringify(singleAd));
+                // TODO :: no need for the else
             } else {
                 return {}
             }
@@ -126,9 +129,11 @@ export default {
         },
 
         submitEdit() {
+            // TODO :: const
             let payload = {id: this.adId};
             const formData = new FormData();
 
+            // TODO :: can use map method
             this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
 
             formData.append("title", this.ad.title);
@@ -138,7 +143,7 @@ export default {
             if (this.ad.image != null) {
                 formData.append("image", this.ad.image);
             }
-            
+
             payload.formData = formData;
 
             this.$store.dispatch("ads/edit", payload);
@@ -156,5 +161,5 @@ export default {
 </script>
 
 <style scoped>
-    
+
 </style>

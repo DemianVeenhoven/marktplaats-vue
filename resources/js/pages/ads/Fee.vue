@@ -25,8 +25,10 @@ export default {
         },
 
         getAd() {
+            // TODO :: const
             let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
+// TODO :: no need to put it in this.ad
             if(singleAd) {
                 this.ad = singleAd;
                 return singleAd;
@@ -37,12 +39,14 @@ export default {
 
         getFee() {
             if (this.ad.bids) {
+                // TODO :: const
                 let numb =  this.ad.bids[0].amount * 0.1
                 return numb.toFixed(2);
+                // TODO :: no need for the else
             } else {
                 return null;
             }
-            
+
         }
     },
 
