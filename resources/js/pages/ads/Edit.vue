@@ -65,7 +65,7 @@
 
                 <b-button
                     v-if="!ad.premium"
-                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                    :to="{ name: 'ad.premium', params: {id: adId}}" 
                     variant="success"
                 >Upgrade to premium</b-button>
                 
@@ -105,8 +105,16 @@ export default {
             let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
             if(singleAd) {
+                let categoriesArray = [];
+
                 this.ad = JSON.parse(JSON.stringify(singleAd));
-                this.ad.categories = [];
+                
+                if(!this.multiselectArray.length) {
+                    this.ad.categories.forEach(category => this.multiselectArray.push(category));
+                }
+
+                this.ad.image = null;
+
                 return JSON.parse(JSON.stringify(singleAd));
             } else {
                 return {}
@@ -128,12 +136,14 @@ export default {
         submitEdit() {
             let payload = {id: this.adId};
             const formData = new FormData();
-
+            
             this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
-
+            console.log(this.ad.categories)
+            // note to self: formData.append('_method', 'PUT') for image in an edit
+            formData.append('_method', 'PUT')
             formData.append("title", this.ad.title);
             formData.append("description", this.ad.description);
-            formData.append("categories", this.ad.categories);
+            formData.append("categories", this.ad.categoryIds);
 
             if (this.ad.image != null) {
                 formData.append("image", this.ad.image);

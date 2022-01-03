@@ -19,7 +19,7 @@ class CreateAdsTable extends Migration
             $table->text("description");
             $table->unsignedBigInteger('user_id');
                 $table->foreign("user_id")->references("id")->on("users");
-            $table->string("image")->nullable();
+            $table->string("image_path")->nullable();
             $table->boolean("premium")->default(0);
             $table->timestamps();
         });

@@ -47,7 +47,8 @@ class AdController extends Controller
 
         if (array_key_exists("image", $validated)) {
             $path = Storage::put("public", $validated["image"]);
-            $validated["image"] = $path;
+            $ad->image_path = $path;
+            unset($validated["image"]);
         }
 
         $ad->fill($validated);
@@ -92,7 +93,8 @@ class AdController extends Controller
 
         if (array_key_exists("image", $validated)) {
             $path = Storage::put("public", $validated["image"]);
-            $validated["image"] = $path;
+            $ad->image_path = $path;
+            unset($validated["image"]);
         }
 
         $ad->update($validated);

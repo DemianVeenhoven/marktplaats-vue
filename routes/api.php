@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resource("ads", AdController::class);
 
+Route::post("ads/{ad}", [AdController::class, "update"]);
+
 Route::post("ads/{ad}/bid", [AdController::class, "bid"]);
 
 Route::get("ads/{ad}/upgrade", [AdController::class, "upgrade"]);

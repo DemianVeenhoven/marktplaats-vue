@@ -116,6 +116,7 @@ export default {
 
             formData.append("title", this.ad.title);
             formData.append("description", this.ad.description);
+            console.log(this.ad.categories);
             formData.append("categories", this.ad.categories);
 
             if (this.ad.image != null) {

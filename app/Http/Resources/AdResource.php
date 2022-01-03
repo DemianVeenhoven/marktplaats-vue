@@ -22,7 +22,7 @@ class AdResource extends JsonResource
             "title" => $this->title,
             "description" => $this->description,
             "premium" => $this->premium,
-            "image" => Storage::url($this->image),
+            "image_path" => Storage::url($this->image_path),
             "created_at" => $this->created_at->format('d-m-Y H:i:s'),
             "updated_at" => $this->updated_at->format('d-m-Y H:i:s'),
             "advertiser_id" => $this->user->id,

@@ -79,7 +79,7 @@
                                 :title="ad.title"
                                 style="max-width: 20rem;"
                             >
-                                <b-card-img v-if="ad.image != '/storage/'" :src="ad.image" top></b-card-img>
+                                <b-card-img v-if="ad.image_path != '/storage/'" :src="ad.image_path" top></b-card-img>
 
                                 <b-card-text>{{ad.description}}</b-card-text>
 
