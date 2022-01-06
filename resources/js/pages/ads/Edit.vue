@@ -105,8 +105,6 @@ export default {
             let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
             if(singleAd) {
-                let categoriesArray = [];
-
                 this.ad = JSON.parse(JSON.stringify(singleAd));
                 
                 if(!this.multiselectArray.length) {
@@ -114,6 +112,8 @@ export default {
                 }
 
                 this.ad.image = null;
+
+                this.ad.categories = [];
 
                 return JSON.parse(JSON.stringify(singleAd));
             } else {
@@ -138,12 +138,11 @@ export default {
             const formData = new FormData();
             
             this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
-            console.log(this.ad.categories)
             // note to self: formData.append('_method', 'PUT') for image in an edit
             formData.append('_method', 'PUT')
             formData.append("title", this.ad.title);
             formData.append("description", this.ad.description);
-            formData.append("categories", this.ad.categoryIds);
+            formData.append("categories", this.ad.categories);
 
             if (this.ad.image != null) {
                 formData.append("image", this.ad.image);

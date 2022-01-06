@@ -44,8 +44,9 @@ export default {
         },
 
         async createMessage({commit}, payload) {
-            await axios.post("/api/message", payload);
-            router.go();
+            await axios.post("/api/message", payload.new_message);
+            await axios.post("/api/message/send_notification", payload.emailInfo);
+            // router.go();
         },
 
         async deleteMessageChain({commit, dispatch}, payload) {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <b-toast v-model="showError" title="Error" variant="danger">{{getError}}</b-toast>
+            <b-modal v-model="showError" title="Error" variant="danger" hide-footer>{{getError}}</b-modal>
         </div>
 
         <div v-if="emailSend">

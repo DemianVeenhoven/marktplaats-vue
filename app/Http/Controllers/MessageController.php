@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Http\Resources\MessageResource;
@@ -89,5 +90,16 @@ class MessageController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $data = $request->all();
+
+        $email = $data["messageReceiverEmail"];
+
+        Mail::send("emails.message_notification", $data, function($message) use ($email) {
+            $message->to($email)->subject("New message");
+        });
     }
 }

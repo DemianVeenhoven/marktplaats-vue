@@ -20,8 +20,10 @@ class MessageChainResource extends JsonResource
             "ad" => $this->ad->title,
             "advertiser_id" => $this->ad->user->id,
             "advertiser" => $this->ad->user->name,
+            "advertiser_email" => $this->ad->user->email,
             "bidder_id" => $this->bidder->id,
             "bidder" => $this->bidder->name,
+            "bidder_email" => $this->bidder->email,
             "updated_at" => $this->updated_at->format('d-m-Y H:i:s'),
         ];
     }

@@ -90,8 +90,33 @@ export default {
 
     methods: {
         sendMessage() {
+            const payload = {};
+
+            if (this.user.id == this.getMessageChain.advertiser_id) {
+               let emailInfo = {
+                    messageUrl: "http://127.0.0.1:8000/message_chain/" + this.getMessageChain.id,
+                    messageSenderName: this.getMessageChain.advertiser,
+                    messageReceiverName: this.getMessageChain.bidder,
+                    messageReceiverEmail: this.getMessageChain.bidder_email
+               };
+
+               payload.emailInfo = emailInfo;
+            } else {
+                let emailInfo = {
+                    messageChainUrl: "http://127.0.0.1:8000/message_chain/" + this.getMessageChain.id,
+                    messageSenderName: this.getMessageChain.bidder,
+                    messageReceiverName: this.getMessageChain.advertiser,
+                    messageReceiverEmail: this.getMessageChain.advertiser_email
+               };
+
+               payload.emailInfo = emailInfo;
+            }
+
             this.new_message.user_id = this.user.id;
-            this.$store.dispatch("messages/createMessage", this.new_message);
+
+            payload.new_message = this.new_message;
+            console.log(payload.emailInfo);
+            this.$store.dispatch("messages/createMessage", payload);
         },
 
         deleteChain() {

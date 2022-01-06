@@ -32,6 +32,8 @@ Route::resource("message_chain", MessageChainController::class);
 
 Route::resource("message", MessageController::class);
 
+Route::post("message/send_notification", [MessageController::class, "sendEmail"]);
+
 Route::resource("categories", CategoryController::class);
 
 Route::get('user', [AuthenticatedSessionController::class, 'getUser']);
@@ -45,5 +47,7 @@ Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
 
 Route::post('register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
+Route::put("user/{user}", [RegisteredUserController::class, "update"]);
 
 require __DIR__.'/auth.php';

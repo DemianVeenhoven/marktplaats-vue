@@ -27,9 +27,10 @@ export const auth = {
             }
         },
 
-        async edit({ commit }, payload) {
-            const { data } = await axios.put("/api/user/" + payload.id, payload);
-            commit("SET_USER", data);
+        async edit({ commit, dispatch }, payload) {
+            await axios.put("/api/user/" + payload.id, payload);
+            await dispatch("setUser");
+            router.go();
         },
 
         async login({ commit, dispatch }, payload) {
@@ -88,8 +89,6 @@ export const auth = {
                 axios.post("/api/forgot-password", payload)
                     .then((response) => {
                         resolve(response)
-                        // dispatch("setUser");
-                        // router.push({ name: "ad.overview" });
                     })
                     .catch((err) => {
                         commit("SET_ERROR", err.response.data.message)
