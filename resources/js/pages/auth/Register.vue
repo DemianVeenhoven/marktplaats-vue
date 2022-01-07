@@ -4,6 +4,8 @@
             <b-modal v-model="showError" title="Error" variant="danger" hide-footer>{{getError}}</b-modal>
         </div>
 
+        <h1>Register</h1>
+
         <form @submit.prevent="submit">
             <div>
                 <label for="inputName">Username</label>
@@ -12,12 +14,31 @@
                 </div>
             </div>
 
-            <!-- <div>
-                <label for="inputPostalCode">Postal code</label>
+            <br>
+
+            <div>
+                <!-- <label for="inputPostalCode">Post code</label>
                 <div>
-                    <input id="inputPostalCode" v-model="auth.postal_code" type="text"/>
+                    <input id="inputPostalCode" v-model="auth.postalCode" type="text"/>
+                </div> -->
+
+                <div>
+                    <multiselect
+                        v-model="multiselectArray" 
+                        :options="postalCodes" 
+                        :multiple="false" 
+                        :close-on-select="true" 
+                        :clear-on-select="false" 
+                        placeholder="Postal codes" 
+                        label="postcode" 
+                        track-by="id" 
+                        :preselect-first="false" 
+                        :searchable="true"
+                    ></multiselect>
                 </div>
-            </div> -->
+            </div>
+
+            <br>
 
             <div >
                 <label for="inputEmail">Email</label>
@@ -50,23 +71,34 @@
 
 <script>
 import { mapGetters } from "vuex";
+import Multiselect from 'vue-multiselect';
 
 export default {
+    components: {
+        Multiselect
+    },
+
     data() {
         return {
             auth: {
-                user_name: '',
-                // postal_code: "",
+                name: '',
+                postalCode: "",
                 email: '',
                 password: '',
                 password_confirmation: '',
             },
+
+            multiselectArray: [],
 
             showError: false
         };
     },
 
     computed: {
+        ...mapGetters({
+            postalCodes: "postalCodes/getAll"
+        }),
+
         getError() {
             const errorMessage = this.$store.getters["auth/getError"];
 

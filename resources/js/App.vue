@@ -17,6 +17,7 @@ export default {
         this.$store.dispatch("auth/setUser");
         this.$store.dispatch("ads/setAll");
         this.$store.dispatch("categories/setAll");
+        this.$store.dispatch("postalCodes/setAll");
     },
 
     components: {

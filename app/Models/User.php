@@ -24,7 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        "getMessageNotifications"
+        "getMessageNotifications",
     ];
 
     /**
@@ -45,6 +45,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function postalCode()
+    {
+        return $this->belongsToMany(PostalCode::class);
+    }
 
     public function ad() {
         return $this->hasMany(Ad::class);

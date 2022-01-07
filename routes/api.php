@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\PostalCodeController;
 use App\Http\Controllers\MessageChainController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategoryController;
@@ -27,6 +28,8 @@ Route::post("ads/{ad}", [AdController::class, "update"]);
 Route::post("ads/{ad}/bid", [AdController::class, "bid"]);
 
 Route::get("ads/{ad}/upgrade", [AdController::class, "upgrade"]);
+
+Route::get("postalCodes", [PostalCodeController::class, "index"]);
 
 Route::resource("message_chain", MessageChainController::class);
 

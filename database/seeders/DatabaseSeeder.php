@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Ad;
 use App\Models\User;
 use App\Models\Category;
+use Database\Seeders\PostalCodeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,5 +24,9 @@ class DatabaseSeeder extends Seeder
                 ->has(Category::factory()->count(2))
             )    
             ->create();
+
+            $this->call([
+                PostalCodeSeeder::class,
+            ]);
     }
 }
