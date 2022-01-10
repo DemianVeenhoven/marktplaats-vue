@@ -27,6 +27,7 @@ class AdResource extends JsonResource
             "updated_at" => $this->updated_at->format('d-m-Y H:i:s'),
             "advertiser_id" => $this->user->id,
             "advertiser" => $this->user->name,
+            "postalCode" => $this->user->postalCode,
             "categories" => $this->category,
             "bids" => BidResource::collection(Bid::where("ad_id", "=", $this->id)->orderBy("amount", "desc")->get()),
         ];

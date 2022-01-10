@@ -17,11 +17,6 @@
             <br>
 
             <div>
-                <!-- <label for="inputPostalCode">Post code</label>
-                <div>
-                    <input id="inputPostalCode" v-model="auth.postalCode" type="text"/>
-                </div> -->
-
                 <div>
                     <multiselect
                         v-model="multiselectArray" 
@@ -82,7 +77,7 @@ export default {
         return {
             auth: {
                 name: '',
-                postalCode: "",
+                postalCode: null,
                 email: '',
                 password: '',
                 password_confirmation: '',
@@ -112,6 +107,7 @@ export default {
 
     methods: {
         register() {
+            this.auth.postalCode = this.multiselectArray.id;
             this.$store.dispatch('auth/register', this.auth);
         },
     },

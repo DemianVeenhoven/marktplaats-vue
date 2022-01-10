@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,6 +56,6 @@ class AuthenticatedSessionController extends Controller
 
     public function getUser(Request $request)
     {
-        if (Auth::check()) return Auth::user();
+        if (Auth::check()) return UserResource::collection(User::where("id", Auth::user()->id)->get());
     }
 }

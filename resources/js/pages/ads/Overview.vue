@@ -25,7 +25,7 @@
 
             <div>
                 <b-pagination
-                    v-if="!searchBar && !categoryFilter.length"
+                    v-if="!searchBar && !categoryFilter.length && !distance"
                     v-model="currentPage"
                     :total-rows="allAds.length"
                     :per-page="adsPerPage"
@@ -61,6 +61,20 @@
                 <br>
 
                 <b-button @click="clearFilter()">Clear filter</b-button>
+            </div>
+
+            <br>
+
+            <div>
+                <b-form-select v-model="distance" class="mb-3">
+                    <b-form-select-option :value="null">No distance limit</b-form-select-option>
+                    <b-form-select-option :value="5">5 km</b-form-select-option>
+                    <b-form-select-option :value="10">10 km</b-form-select-option>
+                    <b-form-select-option :value="25">25 km</b-form-select-option>
+                    <b-form-select-option :value="50">50 km</b-form-select-option>
+                    <b-form-select-option :value="75">75 km</b-form-select-option>
+                    <b-form-select-option :value="100">100 km</b-form-select-option>
+                </b-form-select>
             </div>
 
             <br>
@@ -146,8 +160,17 @@
 
             <div>
                 <b-pagination
+                    v-if="!searchBar && !categoryFilter.length && !distance"
                     v-model="currentPage"
                     :total-rows="allAds.length"
+                    :per-page="adsPerPage"
+                    aria-controls="ads"
+                ></b-pagination>
+
+                <b-pagination
+                    v-else
+                    v-model="currentPage"
+                    :total-rows="ads.length"
                     :per-page="adsPerPage"
                     aria-controls="ads"
                 ></b-pagination>
@@ -159,6 +182,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
+// import { filter } from 'vue/types/umd';
 import { mapGetters } from "vuex";
 
 export default {
@@ -183,6 +207,8 @@ export default {
 
             searchBar: null,
 
+            distance: null,
+
             bid: {
                 amount: 0,
                 bidder: null,
@@ -193,7 +219,6 @@ export default {
                 ad_id: null,
                 bidder_id: null
             },
-
         }
     },
 
@@ -206,30 +231,47 @@ export default {
 
         ads() {
             if (this.categoryFilter.length) {
-                function hasCategories(categories) {
-                    return function(element) {
-                        return element.categories.filter(category => categories.includes(category.id)).length == categories.length 
-                    }
-                }
-
-                const filteredAds = this.allAds.filter(hasCategories(this.categoryFilter));
+                const filteredAds = this.allAds.filter(this.hasCategories(this.categoryFilter));
 
                 if (this.searchBar) {
-                    // return searched category filtered ads
+                    
                     const searchResults = this.search(filteredAds)
+                    // return searched category filtered ads within range
+                    if (this.distance) {
+                        const adsInRange = this.checkDistance(searchResults, this.distance);
 
+                        return this.sliceAds(adsInRange);
+                    }
+                    // return searched category filtered ads
                     return this.sliceAds(searchResults);
                 } else {
+                    // return category filtered ads within range
+                    if (this.distance) {
+                        const adsInRange = this.checkDistance(filteredAds, this.distance);
+
+                        return this.sliceAds(adsInRange);
+                    }
                     // return category filtered ads
                     return this.sliceAds(filteredAds);
                 }
             } else {
                 if (this.searchBar) {
-                    // return searched ads
                     const searchResults = this.search(this.allAds)
+                    //return searched ads within range
+                    if (this.distance) {
+                        const adsInRange = this.checkDistance(searchResults, this.distance);
 
+                        return this.sliceAds(adsInRange);
+                    }
+                    //return searched ads
                     return this.sliceAds(searchResults);
                 } else {
+                    // return ads within range
+                    if (this.distance) {
+                        const adsInRange = this.checkDistance(this.allAds, this.distance);
+
+                        return this.sliceAds(adsInRange);
+                    }
                     // return all ads
                     return this.sliceAds(this.allAds);
                 }
@@ -291,8 +333,53 @@ export default {
             return array.slice(start, end);
         },
 
+        hasCategories(categories) {
+            return function(element) {
+                return element.categories.filter(category => categories.includes(category.id)).length == categories.length 
+            }
+        },
+
         search(payload) {
             return payload.filter(ad => ad.title.toLowerCase().includes(this.searchBar.toLowerCase()) || ad.description.toLowerCase().includes(this.searchBar.toLowerCase()));
+        },
+
+        calcDistance(adLat, adLon) {
+            const R = 6371; // Radius of the earth in km
+            const userLat = this.user[0].postalCode[0].latitude;
+            const userLon = this.user[0].postalCode[0].longitude; 
+
+            const dLat = this.deg2rad(adLat-userLat);  // deg2rad below
+            const dLon = this.deg2rad(adLon-userLon); 
+
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.deg2rad(userLat)) * Math.cos(this.deg2rad(adLat)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const d = R * c; // Distance in km
+            return d;
+        },
+
+        deg2rad(deg) {
+            return deg * (Math.PI/180)
+        },
+
+        checkDistance(array, distance) {
+            const adsInRange = [];
+
+            array.forEach(element => {
+                if(element.postalCode[0]) {
+                    let adLat = element.postalCode[0].latitude;
+                    let adLon = element.postalCode[0].longitude;
+
+                    if (this.calcDistance(adLat, adLon) <= distance) {
+                        adsInRange.push(element);
+                    }
+                }
+            });
+
+            return adsInRange;
         }
     }
 }

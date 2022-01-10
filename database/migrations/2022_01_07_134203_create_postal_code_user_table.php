@@ -16,8 +16,8 @@ class CreatePostalCodeUserTable extends Migration
         Schema::create('postal_code_user', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
                 $table->foreign("user_id")->references("id")->on("users");
-            $table->unsignedBigInteger('postalCode_id');
-                $table->foreign("postalCode_id")->references("id")->on("postal_codes");
+            $table->unsignedBigInteger('postal_code_id');
+                $table->foreign("postal_code_id")->references("id")->on("postal_codes");
         });
     }
 
