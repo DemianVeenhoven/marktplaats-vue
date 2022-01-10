@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
     created() {
         this.$store.dispatch("messages/setMessageChains");
@@ -50,19 +48,18 @@ export default {
         return {
             new_message: {
                 body: null,
-                user_id: null,
                 chain_id: null
             }
         }
     },
 
     computed: {
-        ...mapGetters ({
-            user: "auth/getUser"
-        }),
+        user() {
+            return this.$store.getters["auth/getUser"][0];
+        },
 
         messageChainId() {
-            let chain_id = parseInt(this.$route.params.id);
+            const chain_id = parseInt(this.$route.params.id);
             this.new_message.chain_id = chain_id;
             return chain_id;
         },
@@ -70,21 +67,21 @@ export default {
         getMessageChain() {
             const messageChain = this.$store.getters["messages/getSingleMessageChain"](this.messageChainId)
 
-            if(!messageChain) {
-                return {}
-            } else {
-                return messageChain
+            if(messageChain) {
+                return messageChain;
             }
+
+            return {};
         },
 
         getMessages() {
             const messages = this.$store.getters["messages/getMessagesByChain"](this.messageChainId);
 
-            if (!messages) {
-                return []
-            } else {
-                return messages
+            if (messages) {
+                return messages;
             }
+
+            return [];
         }
     },
 
@@ -112,10 +109,8 @@ export default {
                payload.emailInfo = emailInfo;
             }
 
-            this.new_message.user_id = this.user.id;
-
             payload.new_message = this.new_message;
-            console.log(payload.emailInfo);
+
             this.$store.dispatch("messages/createMessage", payload);
         },
 

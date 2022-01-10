@@ -97,8 +97,6 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
-
 export default {
    data() {
        return {
@@ -109,32 +107,28 @@ export default {
    },
 
    computed: {
-    //    ...mapGetters({
-    //        user: "auth/getUser"
-    //    }),
-
        getAccount() {
-            let myAccount = this.$store.getters["auth/getUser"][0];
+            const myAccount = this.$store.getters["auth/getUser"][0];
 
             if (myAccount) {
                 this.account = JSON.parse(JSON.stringify(myAccount));
 
                 return myAccount;
-            } else {
-                return {};
-            }
+            } 
+
+            return {};
         },
 
         getAds() {
             const myAds = this.$store.getters["ads/getAdsByUser"](this.getAccount.id);
 
-            if(!myAds) {
-                return []
-            } else {
-                setTimeout(function() {this.loadingComplete = true;}.bind(this), (this.adsPerPage * 400));
+            if(myAds) {
+                setTimeout(() => this.loadingComplete = true, (this.adsPerPage * 400));
 
-                return myAds
-            }
+                return myAds;
+            } 
+
+            return [];
         }
    },
 
@@ -150,12 +144,12 @@ export default {
         activeMessageChain(payload) {
             const userMessageChains = this.$store.getters["messages/getMessageChainsByUser"](this.account.id)
             const activeChain = userMessageChains.find(item => item.ad_id === payload);
-            console.log(activeChain);
+
             if (activeChain) {
                 return activeChain.id;
-            } else {
-                return false;
-            }
+            } 
+
+            return false;
         },
    }
 }

@@ -66,12 +66,10 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import { mapGetters } from 'vuex';
-import Input from '../../../../vendor/laravel/breeze/stubs/inertia-vue/resources/js/Components/Input.vue';
 
 export default {
     components: {
         Multiselect,
-        Input
     },
 
     created() {
@@ -116,7 +114,6 @@ export default {
 
             formData.append("title", this.ad.title);
             formData.append("description", this.ad.description);
-            console.log(this.ad.categories);
             formData.append("categories", this.ad.categories);
 
             if (this.ad.image != null) {

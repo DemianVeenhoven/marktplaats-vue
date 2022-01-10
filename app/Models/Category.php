@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class category extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class category extends Model
         'name'
     ];
 
-    public function ad()
+    public function ads()
     {
         return $this->belongsToMany(Ad::class);
     }

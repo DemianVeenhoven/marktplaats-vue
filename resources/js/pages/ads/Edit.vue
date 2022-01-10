@@ -102,7 +102,7 @@ export default {
         },
 
         getAd() {
-            let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
+            const singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
             if(singleAd) {
                 this.ad = JSON.parse(JSON.stringify(singleAd));
@@ -116,9 +116,9 @@ export default {
                 this.ad.categories = [];
 
                 return JSON.parse(JSON.stringify(singleAd));
-            } else {
-                return {}
-            }
+            } 
+
+            return {};
         },
 
         ...mapGetters({
@@ -134,10 +134,12 @@ export default {
         },
 
         submitEdit() {
-            let payload = {id: this.adId};
+            const payload = {id: this.adId};
             const formData = new FormData();
             
-            this.multiselectArray.forEach(item => this.ad.categories.push(item.id))
+            this.ad.categories = this.multiselectArray.map(function(item) {
+                return item.id
+            });
             // note to self: formData.append('_method', 'PUT') for image in an edit
             formData.append('_method', 'PUT')
             formData.append("title", this.ad.title);

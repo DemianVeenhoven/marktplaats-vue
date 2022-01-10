@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Bid;
 use App\Models\MessageChain;
 
-class ad extends Model
+class Ad extends Model
 {
     use HasFactory;
 
@@ -23,16 +23,16 @@ class ad extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }
     
-    public function bid() {
+    public function bids() {
         return $this->hasMany(Bid::class);
     }
 
-    public function messageChain() {
+    public function messageChains() {
         return $this->hasMany(MessageChain::class);
     }
 }

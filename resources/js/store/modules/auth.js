@@ -27,30 +27,28 @@ export const auth = {
             }
         },
 
-        async edit({ commit, dispatch }, payload) {
+        async edit({ dispatch }, payload) {
             await axios.put("/api/user/" + payload.id, payload);
             await dispatch("setUser");
             router.go();
         },
 
-        async login({ commit, dispatch }, payload) {
-            return new Promise((resolve, reject) => {
-                axios.post("/api/login", payload)
-                    .then((response) => {
-                        resolve(response)
-                        dispatch("setUser");
-                        router.push({ name: "ad.overview" });
-                    })
-                    .catch((err) => {
-                        commit("SET_ERROR", err.response.data.message)
-                    })
-            })
+        async login({ commit, state, dispatch }, payload) {
+                const {status} = await axios.post("/api/login", payload)
+                    .then(()=> console.log('then'))
+                    .catch(()=> console.log('catch'))
+
+                console.log(status)
+
+                // if(!state.errorMessage) {
+                //     dispatch("setUser");
+                //     router.push({ name: "ad.overview" });
+                // }
         },
 
         async logout({ commit, dispatch }) {
             await axios.get("/api/logout");
             commit("SET_LOGGEDIN", false);
-            dispatch("setUser");
             router.push({ name: "ad.overview" }).catch(err => {
                 if (
                   err.name !== 'NavigationDuplicated' &&
@@ -121,6 +119,10 @@ export const auth = {
 
         SET_ERROR(state, payload) {
             state.errorMessage = payload;
+        },
+
+        CLEAR_ERROR(state) {
+            state.errorMessage = null;
         }
     }
 };

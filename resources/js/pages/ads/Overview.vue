@@ -225,57 +225,26 @@ export default {
     computed: {
         ...mapGetters ({
             allAds: "ads/getAll",
-            user: "auth/getUser",
             categories: "categories/getAll"
         }),
 
+        user() {
+            return this.$store.getters["auth/getUser"][0];
+        },
+
         ads() {
+            let ads = this.allAds;
+
             if (this.categoryFilter.length) {
-                const filteredAds = this.allAds.filter(this.hasCategories(this.categoryFilter));
+                ads = ads.filter(this.hasCategories(this.categoryFilter));
+            }
 
-                if (this.searchBar) {
-                    
-                    const searchResults = this.search(filteredAds)
-                    // return searched category filtered ads within range
-                    if (this.distance) {
-                        const adsInRange = this.checkDistance(searchResults, this.distance);
+            if (this.searchBar) ads = this.search(ads);
 
-                        return this.sliceAds(adsInRange);
-                    }
-                    // return searched category filtered ads
-                    return this.sliceAds(searchResults);
-                } else {
-                    // return category filtered ads within range
-                    if (this.distance) {
-                        const adsInRange = this.checkDistance(filteredAds, this.distance);
-
-                        return this.sliceAds(adsInRange);
-                    }
-                    // return category filtered ads
-                    return this.sliceAds(filteredAds);
-                }
-            } else {
-                if (this.searchBar) {
-                    const searchResults = this.search(this.allAds)
-                    //return searched ads within range
-                    if (this.distance) {
-                        const adsInRange = this.checkDistance(searchResults, this.distance);
-
-                        return this.sliceAds(adsInRange);
-                    }
-                    //return searched ads
-                    return this.sliceAds(searchResults);
-                } else {
-                    // return ads within range
-                    if (this.distance) {
-                        const adsInRange = this.checkDistance(this.allAds, this.distance);
-
-                        return this.sliceAds(adsInRange);
-                    }
-                    // return all ads
-                    return this.sliceAds(this.allAds);
-                }
-            }   
+            if (this.distance) {
+                ads = this.checkDistance(ads, this.distance);
+            }
+            return this.sliceAds(ads);
         },
     },
 
@@ -292,9 +261,9 @@ export default {
             if (this.multiselectArray.length) {
                 this.categoryFilter = [];
                 this.multiselectArray.forEach(item => this.categoryFilter.push(item.id));
-            } else {
-                this.categoryFilter = [];
-            }
+            } 
+
+            this.categoryFilter = [];
         },
 
         clearFilter() {
@@ -315,13 +284,13 @@ export default {
 
             if (activeChain) {
                 return activeChain.id;
-            } else {
-                return false;
-            }
+            } 
+
+            return false;
         },
         
         adsLoaded() {
-            setTimeout(function() {this.loadingComplete = true;}.bind(this), (this.adsPerPage * 400));
+            setTimeout(() => this.loadingComplete = true, (this.adsPerPage * 400));
         },
 
         sliceAds(array) {
@@ -345,8 +314,8 @@ export default {
 
         calcDistance(adLat, adLon) {
             const R = 6371; // Radius of the earth in km
-            const userLat = this.user[0].postalCode[0].latitude;
-            const userLon = this.user[0].postalCode[0].longitude; 
+            const userLat = this.user.postalCode[0].latitude;
+            const userLon = this.user.postalCode[0].longitude; 
 
             const dLat = this.deg2rad(adLat-userLat);  // deg2rad below
             const dLon = this.deg2rad(adLon-userLon); 

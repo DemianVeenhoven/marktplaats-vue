@@ -51,19 +51,19 @@ class User extends Authenticatable
         return $this->belongsToMany(PostalCode::class);
     }
 
-    public function ad() {
+    public function ads() {
         return $this->hasMany(Ad::class);
     }
 
-    public function bid() {
+    public function bids() {
         return $this->hasMany(Bid::class);
     }
 
-    public function messageChain() {
+    public function messageChains() {
         return $this->hasMany(MessageChain::class);
     }
 
-    public function message() {
+    public function messages() {
         return $this->hasMany(Message::class);
     }
 }

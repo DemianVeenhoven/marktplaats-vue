@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Http\Resources\MessageResource;
 use App\Http\Requests\StoreMessage;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -42,7 +43,7 @@ class MessageController extends Controller
         $message = new Message();
 
         $message->fill($validated);
-        $message->user_id = $validated["user_id"];
+        $message->user_id = Auth::user()->id;
         $message->chain_id = $validated["chain_id"];
         $message->save();
     }

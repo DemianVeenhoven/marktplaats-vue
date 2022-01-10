@@ -16,10 +16,34 @@ import { BootstrapVue} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import axios from "axios";
+
 Vue.use(BootstrapVue)
 
 // Vue.config.debug = true; 
 // Vue.config.devtools = true;
+
+axios.interceptors.response.use(
+    function (response) {
+        // Any status code that lie within the range of 2xx cause this function to trigger
+        // do nothing, return response
+        
+        store.commit("auth/CLEAR_ERROR");
+        return response;
+    },
+    function (error) {
+        if (!error.response) {
+            store.commit("auth/CLEAR_ERROR");
+            return Promise.reject(error);
+        }
+        // Any status codes that falls outside the range of 2xx cause this function to trigger
+        // Do something with response error
+
+        const errors = error.response.data.errors || [];
+        store.commit("auth/SET_ERROR", errors.email[0]);
+        // store.commit('setStatus', 'error');
+    }
+);
 
 new Vue({
     el: "#app",

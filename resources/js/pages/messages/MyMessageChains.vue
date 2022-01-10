@@ -56,9 +56,9 @@ export default {
         getMessageChains() {
             if (this.user.id) {
                 return this.$store.getters["messages/getMessageChainsByUser"](this.user.id);
-            } else {
-                return []
-            }  
+            }
+
+            return [];
         }
     },
 
@@ -67,11 +67,11 @@ export default {
             const messages = this.$store.getters["messages/getMessagesByChain"](chain_id);
             const lastIndex = messages.length - 1
 
-            if (!messages) {
-                return {}
-            } else {
-                return messages[lastIndex];
-            }
+            if (messages) {
+                messages[lastIndex];
+            } 
+
+            return {};
         },
 
         deleteChain(chain_id) {

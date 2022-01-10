@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\AdResource;
 use App\Models\Ad;
-use App\Models\Category;
 use App\Models\Bid;
 use App\Http\Requests\StoreAd;
 use App\Http\Requests\StoreBid;
@@ -55,7 +54,7 @@ class AdController extends Controller
         $ad->user_id = Auth::id();
         $ad->save();
 
-        $ad->category()->sync($validated["categories"]);
+        $ad->categories()->sync($validated["categories"]);
     }
 
     /**
@@ -99,7 +98,7 @@ class AdController extends Controller
 
         $ad->update($validated);
 
-        $ad->category()->sync($validated["categories"]);
+        $ad->categories()->sync($validated["categories"]);
     }
 
     /**
@@ -110,7 +109,7 @@ class AdController extends Controller
      */
     public function destroy(Ad $ad)
     {
-        $ad->category()->sync([]);
+        $ad->categories()->sync([]);
         $ad->delete();
     }
 

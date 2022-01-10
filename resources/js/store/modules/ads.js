@@ -26,32 +26,32 @@ export default {
             commit("SET_ALL", data);
         },
 
-        async create({commit, dispatch}, payload) {
+        async create({dispatch}, payload) {
             await axios.post("/api/ads", payload);
             dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async edit({commit, dispatch}, payload) {
+        async edit({dispatch}, payload) {
             // note to self: formData does not work with put
             await axios.post("/api/ads/" + payload.id, payload.formData);
             dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async remove({commit, dispatch}, payload) {
+        async remove({dispatch}, payload) {
             await axios.delete("/api/ads/" + payload);
             dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async bid({commit, dispatch}, payload) {
+        async bid({dispatch}, payload) {
             await axios.post("/api/ads/" + payload.ad_id + "/bid", payload);
             dispatch("setAll");
             router.push({name: "ad.overview"});
         },
 
-        async upgrade({commit, dispatch}, payload) {
+        async upgrade({dispatch}, payload) {
             await axios.get("/api/ads/" + payload + "/upgrade")
             dispatch("setAll");
             router.push({name: "ad.overview"});

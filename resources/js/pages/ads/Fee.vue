@@ -13,42 +13,34 @@
 
 <script>
 export default {
-    data() {
-        return {
-            ad: {},
-        }
-    },
-
     computed: {
         adId() {
             return parseInt(this.$route.params.id);
         },
 
         getAd() {
-            let singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
+            const singleAd = this.$store.getters["ads/getSingleAd"](this.adId);
 
             if(singleAd) {
-                this.ad = singleAd;
                 return singleAd;
-            } else {
-                return {}
-            }
+            } 
+
+            return {};
         },
 
         getFee() {
-            if (this.ad.bids) {
-                let numb =  this.ad.bids[0].amount * 0.1
+            if (this.getAd.bids) {
+                const numb =  this.getAd.bids[0].amount * 0.1
                 return numb.toFixed(2);
-            } else {
-                return null;
-            }
-            
+            } 
+
+            return null;
         }
     },
 
     methods: {
         payFee() {
-            this.$store.dispatch("ads/remove", this.ad.id);
+            this.$store.dispatch("ads/remove", this.getAd.id);
         }
     }
 }

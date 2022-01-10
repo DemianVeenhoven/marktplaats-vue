@@ -25,7 +25,6 @@ class StoreMessage extends FormRequest
     {
         return [
             "body" => "required",
-            "user_id" => "required",
             "chain_id" => "required"
         ];
     }
