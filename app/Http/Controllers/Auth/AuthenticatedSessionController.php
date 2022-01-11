@@ -58,6 +58,8 @@ class AuthenticatedSessionController extends Controller
 
     public function getUser(Request $request)
     {
-        if (Auth::check()) return UserResource::collection(User::where("id", Auth::user()->id)->get());
+        if (Auth::check()) {
+            return UserResource::collection(User::where("id", Auth::user()->id)->get());
+        }
     }
 }

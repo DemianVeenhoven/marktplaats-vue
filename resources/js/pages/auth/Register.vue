@@ -85,7 +85,9 @@ export default {
 
             multiselectArray: [],
 
-            showError: false
+            showError: false,
+
+            errorMessage: null
         };
     },
 
@@ -98,15 +100,20 @@ export default {
             const errorMessage = this.$store.getters["auth/getError"];
 
             if (errorMessage) {
-                this.showError = true
+                this.showError = true;
+                this.errorMessage = errorMessage;
+                this.$store.commit("auth/CLEAR_ERROR");
+                return errorMessage
             }
-            
-            return errorMessage
+
+            return null;
         }
     },
 
     methods: {
         register() {
+            this.errorMessage = null;
+            this.showError = false;
             this.auth.postalCode = this.multiselectArray.id;
             this.$store.dispatch('auth/register', this.auth);
         },

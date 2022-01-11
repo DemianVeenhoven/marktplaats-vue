@@ -60,7 +60,7 @@
 
                 <br>
 
-                <b-button @click="clearFilter()">Clear filter</b-button>
+                <b-button @click="clearCategoryFilter()">Clear filter</b-button>
             </div>
 
             <br>
@@ -182,7 +182,6 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
-// import { filter } from 'vue/types/umd';
 import { mapGetters } from "vuex";
 
 export default {
@@ -201,14 +200,6 @@ export default {
 
             loadingComplete: false,
 
-            categoryFilter: [],
-
-            multiselectArray: [],
-
-            searchBar: null,
-
-            distance: null,
-
             bid: {
                 amount: 0,
                 bidder: null,
@@ -219,18 +210,24 @@ export default {
                 ad_id: null,
                 bidder_id: null
             },
+
+            //filters data
+            multiselectArray: [],
+
+            categoryFilter: [],
+
+            searchBar: null,
+
+            distance: null,
         }
     },
 
     computed: {
         ...mapGetters ({
             allAds: "ads/getAll",
-            categories: "categories/getAll"
+            categories: "categories/getAll",
+            user: "auth/getUser"
         }),
-
-        user() {
-            return this.$store.getters["auth/getUser"][0];
-        },
 
         ads() {
             let ads = this.allAds;
@@ -257,20 +254,6 @@ export default {
             this.adsPerPage = payload;
         },
 
-        setCategoryFilter() {
-            if (this.multiselectArray.length) {
-                this.categoryFilter = [];
-                this.multiselectArray.forEach(item => this.categoryFilter.push(item.id));
-            } 
-
-            this.categoryFilter = [];
-        },
-
-        clearFilter() {
-            this.multiselectArray = []
-            this.setCategoryFilter();
-        },
-
         newMessageChain(payload) {
             this.messageChain.ad_id = payload.id;
             this.messageChain.bidder_id = this.user.id;
@@ -293,13 +276,20 @@ export default {
             setTimeout(() => this.loadingComplete = true, (this.adsPerPage * 400));
         },
 
-        sliceAds(array) {
-            const start = (this.currentPage - 1) * this.adsPerPage;
-            const end =  start + this.adsPerPage;
+        //filter methods------------------------------------------------
+        //category filter
+        setCategoryFilter() {
+            if (this.multiselectArray.length) {
+                this.categoryFilter = [];
+                this.multiselectArray.forEach(item => this.categoryFilter.push(item.id));
+            } 
 
-            this.adsLoaded();
+            this.categoryFilter = [];
+        },
 
-            return array.slice(start, end);
+        clearCategoryFilter() {
+            this.multiselectArray = []
+            this.setCategoryFilter();
         },
 
         hasCategories(categories) {
@@ -308,10 +298,12 @@ export default {
             }
         },
 
+        //searchbar
         search(payload) {
             return payload.filter(ad => ad.title.toLowerCase().includes(this.searchBar.toLowerCase()) || ad.description.toLowerCase().includes(this.searchBar.toLowerCase()));
         },
 
+        //distance filter
         calcDistance(adLat, adLon) {
             const R = 6371; // Radius of the earth in km
             const userLat = this.user.postalCode[0].latitude;
@@ -349,7 +341,17 @@ export default {
             });
 
             return adsInRange;
-        }
+        },
+
+        //return filtered ads
+        sliceAds(array) {
+            const start = (this.currentPage - 1) * this.adsPerPage;
+            const end =  start + this.adsPerPage;
+
+            this.adsLoaded();
+
+            return array.slice(start, end);
+        },
     }
 }
 </script>

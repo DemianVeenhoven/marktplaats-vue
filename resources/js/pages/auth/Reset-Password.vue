@@ -51,7 +51,9 @@ export default {
                 password_confirmation: '',
             },
 
-            showError: false
+            showError: false,
+
+            errorMessage: null
         };
     },
 
@@ -60,10 +62,13 @@ export default {
             const errorMessage = this.$store.getters["auth/getError"];
 
             if (errorMessage) {
-                this.showError = true
+                this.showError = true;
+                this.errorMessage = errorMessage;
+                this.$store.commit("auth/CLEAR_ERROR");
+                return errorMessage
             }
-            
-            return errorMessage
+
+            return null;
         }
     },
 
@@ -73,6 +78,9 @@ export default {
         },
 
         reset() {
+            this.errorMessage = null;
+            this.showError = false;
+            
             this.$store.dispatch('auth/resetPassword', this.auth);
         },
     },

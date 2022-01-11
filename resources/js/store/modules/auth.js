@@ -19,6 +19,7 @@ export const auth = {
     actions: {
         async setUser({ commit }) {
             const { data } = await axios.get("/api/user");
+
             if (data) {
                 commit("SET_LOGGEDIN", true);
                 commit("SET_USER", data);
@@ -33,20 +34,14 @@ export const auth = {
             router.go();
         },
 
-        async login({ commit, state, dispatch }, payload) {
-                const {status} = await axios.post("/api/login", payload)
-                    .then(()=> console.log('then'))
-                    .catch(()=> console.log('catch'))
+        async login({ dispatch }, payload) {
+                await axios.post("/api/login", payload)
 
-                console.log(status)
-
-                // if(!state.errorMessage) {
-                //     dispatch("setUser");
-                //     router.push({ name: "ad.overview" });
-                // }
+                dispatch("setUser");
+                router.push({ name: "ad.overview" });
         },
 
-        async logout({ commit, dispatch }) {
+        async logout({ commit}) {
             await axios.get("/api/logout");
             commit("SET_LOGGEDIN", false);
             router.push({ name: "ad.overview" }).catch(err => {
@@ -59,52 +54,21 @@ export const auth = {
               });
         },
 
-        async register({ commit, dispatch }, payload) {
-            return new Promise((resolve, reject) => {
-                axios.post("/api/register", payload)
-                    .then((response) => {
-                        resolve(response)
-                        commit("SET_LOGGEDIN", true);
-                        dispatch("setUser");
-                        router.push({ name: "ad.overview" });
-                    })
-                    .catch((err) => {
-                        const errMes = err.response.data.message;
+        async register({ dispatch }, payload) {
+            await axios.post("/api/register", payload);
 
-                        if (err.response.data.errors.email[0].includes("The email has already been taken")) {
-                            commit("SET_ERROR", "That email is already in use.");
-                        } else if (!errMes.includes("for key 'users_name_unique'")) {
-                            commit("SET_ERROR", errMes);
-                        } else {
-                            commit("SET_ERROR", "That username is already in use.");
-                        }
-                    })
-            }) 
+            dispatch("setUser");
+            router.push({ name: "ad.overview" });
         },
 
         async sendEmail({commit}, payload) {
-            return new Promise((resolve, reject) => {
-                axios.post("/api/forgot-password", payload)
-                    .then((response) => {
-                        resolve(response)
-                    })
-                    .catch((err) => {
-                        commit("SET_ERROR", err.response.data.message)
-                    })
-            })
+            await axios.post("/api/forgot-password", payload);
         },
 
-        async resetPassword({ commit, dispatch }, payload) {
-            return new Promise((resolve, reject) => {
-                axios.post("/api/reset-password", payload)
-                    .then((response) => {
-                        resolve(response)
-                        router.push({ name: "auth.login" });
-                    })
-                    .catch((err) => {
-                        commit("SET_ERROR", err.response.data.message)
-                    })
-            }) 
+        async resetPassword({ commit }, payload) {
+                await axios.post("/api/reset-password", payload);
+
+                router.push({ name: "auth.login" });
         },
     },
 
@@ -114,7 +78,7 @@ export const auth = {
         },
 
         SET_USER(state, payload) {
-            state.user = payload;
+            state.user = payload[0];
         },
 
         SET_ERROR(state, payload) {

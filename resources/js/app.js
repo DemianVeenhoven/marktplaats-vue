@@ -40,7 +40,10 @@ axios.interceptors.response.use(
         // Do something with response error
 
         const errors = error.response.data.errors || [];
-        store.commit("auth/SET_ERROR", errors.email[0]);
+        console.log(error.response.data.errors);
+        store.commit("auth/SET_ERROR", errors[Object.keys(errors)[0]][0]);
+        // store.commit("auth/SET_ERROR", errors[0][0]);
+        throw error;
         // store.commit('setStatus', 'error');
     }
 );

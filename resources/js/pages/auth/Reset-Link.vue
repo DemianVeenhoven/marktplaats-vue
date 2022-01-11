@@ -39,6 +39,8 @@ export default {
 
             showError: false,
 
+            errorMessage: null,
+
             emailSend: false
         };
     },
@@ -48,15 +50,21 @@ export default {
             const errorMessage = this.$store.getters["auth/getError"];
 
             if (errorMessage) {
-                this.showError = true
+                this.showError = true;
+                this.errorMessage = errorMessage;
+                this.$store.commit("auth/CLEAR_ERROR");
+                return errorMessage
             }
-            
-            return errorMessage
+
+            return null;
         }
     },
 
     methods: {
         sendEmail() {
+            this.errorMessage = null;
+            this.showError = false;
+            
             this.$store.dispatch('auth/sendEmail', this.auth);
 
             this.emailSend = true;
