@@ -29,6 +29,9 @@ export const auth = {
         },
 
         async edit({ dispatch }, payload) {
+            // TODO :: should not use the id in this route.
+            // Cause you can easily change it and change other users that way
+            // Can use Auth::user on the backend to get the logged in user
             await axios.put("/api/user/" + payload.id, payload);
             await dispatch("setUser");
             router.go();

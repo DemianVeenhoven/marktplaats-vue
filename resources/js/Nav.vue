@@ -1,6 +1,7 @@
 <template>
     <div>
         <b-nav tabs justified v-if="isLoggedIn" class="nav">
+        <!-- TODO :: all ads stays active, even when on another page -->
             <b-nav-item :to="{ name: 'ad.overview' }">All ads</b-nav-item>
             <b-nav-item :to="{ name: 'ad.create' }">Create a new ad</b-nav-item>
             <b-nav-item :to="{ name: 'account' }">My account</b-nav-item>
@@ -21,7 +22,7 @@ export default {
     props: [
         "isLoggedIn"
     ],
-    
+
     methods: {
         logout() {
             this.$store.dispatch("auth/logout");

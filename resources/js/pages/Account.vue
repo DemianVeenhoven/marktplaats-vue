@@ -1,5 +1,10 @@
 <template>
     <div>
+        <!--
+            TODO ::
+                my account isn't loaded, not seeing my username and can't edit my account
+                Also can't see my ads
+            -->
         <b-overlay :show="!loadingComplete">
             <h1>{{ getAccount.name }}</h1>
 
@@ -34,7 +39,7 @@
                 </div>
 
                 <hr>
-                
+
                 <div id="myAds">
                     <div v-if="!getAds.length">
                         <p>You do not have any active ads.</p>
@@ -52,14 +57,14 @@
 
                             <b-card-text>Placed on: {{ad.created_at}}</b-card-text>
 
-                            <b-button 
-                                :to="{ name: 'ad.edit', params: {id: ad.id}}" 
+                            <b-button
+                                :to="{ name: 'ad.edit', params: {id: ad.id}}"
                                 variant="primary"
                             >Edit</b-button>
 
                             <b-button
                                 v-if="!ad.premium"
-                                :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                                :to="{ name: 'ad.premium', params: {id: ad.id}}"
                                 variant="primary"
                             >Make ad premium</b-button>
 
@@ -71,8 +76,8 @@
                                 </div>
                             </b-card-text>
 
-                            <b-button 
-                                v-if="activeMessageChain(ad.id)" 
+                            <b-button
+                                v-if="activeMessageChain(ad.id)"
                                 :to="{ name: 'messageChain', params: {id: activeMessageChain(ad.id)}}"
                                 variant="primary"
                             >Show message chain</b-button>
@@ -114,7 +119,7 @@ export default {
                 this.account = JSON.parse(JSON.stringify(myAccount));
 
                 return myAccount;
-            } 
+            }
 
             return {};
         },
@@ -126,7 +131,7 @@ export default {
                 setTimeout(() => this.loadingComplete = true, (this.adsPerPage * 400));
 
                 return myAds;
-            } 
+            }
 
             return [];
         }
@@ -147,7 +152,7 @@ export default {
 
             if (activeChain) {
                 return activeChain.id;
-            } 
+            }
 
             return false;
         },

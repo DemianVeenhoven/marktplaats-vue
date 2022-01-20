@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- TODO :: missing form validation feedback -->
         <h1>Create a new ad</h1>
 
         <div>
@@ -22,21 +23,22 @@
 
                 <div>
                     <label>Add a category</label>
+                    <!-- TODO :: what does this do? doesn't seem to do anything -->
                     <input type="text" id="category" v-model="category.name">
                     <b-button @click="addCategory()" variant="primary">Add</b-button>
                 </div>
-                
+
                 <div>
                     <multiselect
-                        v-model="multiselectArray" 
-                        :options="categories" 
-                        :multiple="true" 
-                        :close-on-select="false" 
-                        :clear-on-select="false" 
-                        placeholder="Pick some" 
-                        label="name" 
-                        track-by="id" 
-                        :preselect-first="false" 
+                        v-model="multiselectArray"
+                        :options="categories"
+                        :multiple="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        placeholder="Pick some"
+                        label="name"
+                        track-by="id"
+                        :preselect-first="false"
                         :searchable="false"
                     ></multiselect>
                 </div>
@@ -119,7 +121,7 @@ export default {
             if (this.ad.image != null) {
                 formData.append("image", this.ad.image);
             }
-            
+
             this.$store.dispatch("ads/create", formData);
         },
 
