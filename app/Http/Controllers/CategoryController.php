@@ -38,10 +38,11 @@ class CategoryController extends Controller
     public function store(StoreCategory $request)
     {
         $validated = $request->validated();
+        
+        $category = Category::create($validated);
 
-        Category::create($validated);
-
-        return CategoryResource::collection(Category::orderBy("name", "desc")->get());
+        return $category;
+        // return CategoryResource::collection(Category::orderBy("name", "ASC")->get());
     }
 
     /**

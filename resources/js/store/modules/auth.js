@@ -29,7 +29,7 @@ export const auth = {
         },
 
         async edit({ dispatch }, payload) {
-            await axios.put("/api/user/" + payload.id, payload);
+            await axios.put("/api/user/", payload);
             await dispatch("setUser");
             router.go();
         },

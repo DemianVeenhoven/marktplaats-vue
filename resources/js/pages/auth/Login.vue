@@ -44,9 +44,7 @@ export default {
                 password: ""
             },
 
-            showError: false,
-
-            errorMessage: null
+            showError: false
         };
     },
 
@@ -56,7 +54,6 @@ export default {
 
             if (errorMessage) {
                 this.showError = true;
-                this.errorMessage = errorMessage;
                 this.$store.commit("auth/CLEAR_ERROR");
                 return errorMessage
             }
@@ -67,7 +64,6 @@ export default {
 
     methods: {
         login() {
-            this.errorMessage = null;
             this.showError = false;
             this.$store.dispatch("auth/login", this.auth);
         }

@@ -108,7 +108,7 @@ export default {
 
    computed: {
        getAccount() {
-            const myAccount = this.$store.getters["auth/getUser"][0];
+            const myAccount = this.$store.getters["auth/getUser"];
 
             if (myAccount) {
                 this.account = JSON.parse(JSON.stringify(myAccount));

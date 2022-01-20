@@ -18,9 +18,10 @@ export default {
             commit("SET_ALL", data)
         },
 
-        async create({commit}, payload) {
+        async create({dispatch}, payload) {
             const {data} = await axios.post("/api/categories", payload);
-            commit("SET_ALL", data);
+            dispatch("setAll");
+            return data;
         }
     },
 

@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div>
+            <b-modal v-model="showError" title="Error" variant="danger" hide-footer>{{getError}}</b-modal>
+        </div>
+
         <h1>Edit {{this.getAd.title}}</h1>
 
         <div>
@@ -92,11 +96,17 @@ export default {
                 name: ""
             },
 
-            multiselectArray: []
+            multiselectArray: [],
+
+            showError: false
         }
     },
 
     computed: {
+        ...mapGetters({
+            categories: "categories/getAll"
+        }),
+
         adId() {
             return parseInt(this.$route.params.id);
         },
@@ -121,9 +131,17 @@ export default {
             return {};
         },
 
-        ...mapGetters({
-            categories: "categories/getAll"
-        })
+        getError() {
+            const errorMessage = this.$store.getters["auth/getError"];
+
+            if (errorMessage) {
+                this.showError = true;
+                this.$store.commit("auth/CLEAR_ERROR");
+                return errorMessage
+            }
+
+            return null;
+        }
     },
 
     methods: {
@@ -134,6 +152,8 @@ export default {
         },
 
         submitEdit() {
+            this.showError = false;
+            
             const payload = {id: this.adId};
             const formData = new FormData();
             
@@ -161,6 +181,17 @@ export default {
             } else {
                 this.$router.push({name: "ad.fee"});
             }
+        },
+
+        addCategory() {
+            this.showError = false;
+
+            this.$store.dispatch("categories/create", this.category).then(
+                (newCategoryItem) => {
+                    this.multiselectArray.push(newCategoryItem);
+            });
+            
+            this.category.name = "";
         }
     }
 }

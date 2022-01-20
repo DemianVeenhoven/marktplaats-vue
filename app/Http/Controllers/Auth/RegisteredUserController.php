@@ -52,8 +52,10 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function update(UpdateUser $request, User $user)
+    public function update(UpdateUser $request)
     {
+        $user = Auth::user();
+
         $validated = $request->validated();
 
         $user->update($validated);

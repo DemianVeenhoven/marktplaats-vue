@@ -42,9 +42,7 @@ axios.interceptors.response.use(
         const errors = error.response.data.errors || [];
         console.log(error.response.data.errors);
         store.commit("auth/SET_ERROR", errors[Object.keys(errors)[0]][0]);
-        // store.commit("auth/SET_ERROR", errors[0][0]);
         throw error;
-        // store.commit('setStatus', 'error');
     }
 );
 

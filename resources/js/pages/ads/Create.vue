@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div>
+            <b-modal v-model="showError" title="Error" variant="danger" hide-footer>{{getError}}</b-modal>
+        </div>
+
         <h1>Create a new ad</h1>
 
         <div>
@@ -78,25 +82,39 @@ export default {
 
     data() {
         return {
-           ad: {
-               title: "",
-               description: "",
-               image: null,
-               categories: []
-           },
+            ad: {
+                title: "",
+                description: "",
+                image: null,
+                categories: []
+            },
 
-           category: {
-               name: ""
-           },
+            category: {
+                name: ""
+            },
 
-           multiselectArray: []
+            multiselectArray: [],
+
+            showError: false
         }
     },
 
     computed: {
         ...mapGetters({
             categories: "categories/getAll"
-        })
+        }),
+
+        getError() {
+            const errorMessage = this.$store.getters["auth/getError"];
+
+            if (errorMessage) {
+                this.showError = true;
+                this.$store.commit("auth/CLEAR_ERROR");
+                return errorMessage
+            }
+
+            return null;
+        }
     },
 
     methods: {
@@ -107,6 +125,7 @@ export default {
         },
 
         submitAd() {
+            this.showError = false;
             //note to self: formData for image
             const formData = new FormData();
 
@@ -124,7 +143,14 @@ export default {
         },
 
         addCategory() {
-            this.$store.dispatch("categories/create", this.category)
+            this.showError = false;
+            
+            this.$store.dispatch("categories/create", this.category).then(
+                (newCategoryItem) => {
+                    this.multiselectArray.push(newCategoryItem);
+            });
+            
+            this.category.name = "";
         }
     }
 }

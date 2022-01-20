@@ -24,7 +24,7 @@
         <br>
 
         <div v-for="message in getMessages" :key="message.id">
-            <div v-bind:class="{
+            <div :class="{
                     advertiser: message.writer_id == getMessageChain.advertiser_id,
                     bidder: message.writer_id == getMessageChain.bidder_id,
                     message
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
     created() {
         this.$store.dispatch("messages/setMessageChains");
@@ -54,9 +55,9 @@ export default {
     },
 
     computed: {
-        user() {
-            return this.$store.getters["auth/getUser"][0];
-        },
+        ...mapGetters({
+            user: "auth/getUser"
+        }),
 
         messageChainId() {
             const chain_id = parseInt(this.$route.params.id);
@@ -90,23 +91,19 @@ export default {
             const payload = {};
 
             if (this.user.id == this.getMessageChain.advertiser_id) {
-               let emailInfo = {
+               payload.emailInfo = {
                     messageUrl: "http://127.0.0.1:8000/message_chain/" + this.getMessageChain.id,
                     messageSenderName: this.getMessageChain.advertiser,
                     messageReceiverName: this.getMessageChain.bidder,
                     messageReceiverEmail: this.getMessageChain.bidder_email
                };
-
-               payload.emailInfo = emailInfo;
             } else {
-                let emailInfo = {
+               payload.emailInfo = {
                     messageChainUrl: "http://127.0.0.1:8000/message_chain/" + this.getMessageChain.id,
                     messageSenderName: this.getMessageChain.bidder,
                     messageReceiverName: this.getMessageChain.advertiser,
                     messageReceiverEmail: this.getMessageChain.advertiser_email
                };
-
-               payload.emailInfo = emailInfo;
             }
 
             payload.new_message = this.new_message;

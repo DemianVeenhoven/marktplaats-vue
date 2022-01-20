@@ -56,7 +56,7 @@ Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
 Route::post('register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
-Route::put("user/{user}", [RegisteredUserController::class, "update"]);
+Route::put("user", [RegisteredUserController::class, "update"]);
 
 // routes form auth.php
 Route::get('/register', [RegisteredUserController::class, 'create'])
