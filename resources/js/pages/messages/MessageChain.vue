@@ -1,5 +1,10 @@
 <template>
     <div>
+        <!--
+            TODO :: doesn't work on my machine, getting an empty screen
+            Getting the error:
+            "TypeError: Cannot read properties of undefined (reading 'id')"
+         -->
         <h1 v-if="getMessageChain">Messages about {{getMessageChain.ad}}</h1>
 
         <div>
@@ -13,7 +18,7 @@
 
             <div>
                 <b-button @click="sendMessage()" variant="primary">Send</b-button>
-                <b-button 
+                <b-button
                     v-if="getMessageChain.advertiser_id == user.id"
                     @click="deleteChain()"
                     variant="danger"
@@ -24,6 +29,7 @@
         <br>
 
         <div v-for="message in getMessages" :key="message.id">
+        <!-- TODO :: no need to type v-bind -->
             <div v-bind:class="{
                     advertiser: message.writer_id == getMessageChain.advertiser_id,
                     bidder: message.writer_id == getMessageChain.bidder_id,
@@ -90,6 +96,7 @@ export default {
             const payload = {};
 
             if (this.user.id == this.getMessageChain.advertiser_id) {
+                // TODO :: no need to put it in a variable first
                let emailInfo = {
                     messageUrl: "http://127.0.0.1:8000/message_chain/" + this.getMessageChain.id,
                     messageSenderName: this.getMessageChain.advertiser,

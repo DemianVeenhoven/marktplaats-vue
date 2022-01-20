@@ -5,7 +5,7 @@
 
             <div>
                 <b-form-input type="search" v-model="searchBar" placeholder="Search"></b-form-input>
-                
+
                 <br>
 
                 <b-button @click="searchBar = null" variant="primary">Clear searchbar</b-button>
@@ -44,16 +44,17 @@
             <br>
 
             <div class="filter_categories">
+                <!-- TODO :: category filter doesn't work -->
                 <multiselect
-                    v-model="multiselectArray" 
-                    :options="categories" 
-                    :multiple="true" 
-                    :close-on-select="false" 
-                    :clear-on-select="false" 
-                    placeholder="Filter by categories" 
-                    label="name" 
-                    track-by="id" 
-                    :preselect-first="false" 
+                    v-model="multiselectArray"
+                    :options="categories"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    placeholder="Filter by categories"
+                    label="name"
+                    track-by="id"
+                    :preselect-first="false"
                     :searchable="false"
                     @input="setCategoryFilter"
                 ></multiselect>
@@ -89,6 +90,7 @@
                             no-gutters
                             class="mb-2"
                         >
+                        <!-- TODO :: put this card in a component, now this page is becoming huge and it's better to split some logic -->
                             <b-card
                                 :title="ad.title"
                                 style="max-width: 20rem;"
@@ -101,15 +103,15 @@
 
                                 <b-card-text>Placed on: {{ad.created_at}}</b-card-text>
 
-                                <b-button 
+                                <b-button
                                     v-if="ad.advertiser_id == user.id"
-                                    :to="{ name: 'ad.edit', params: {id: ad.id}}" 
+                                    :to="{ name: 'ad.edit', params: {id: ad.id}}"
                                     variant="primary"
                                 >Edit</b-button>
 
                                 <b-button
                                     v-if="ad.advertiser_id == user.id && !ad.premium"
-                                    :to="{ name: 'ad.premium', params: {id: ad.id}}" 
+                                    :to="{ name: 'ad.premium', params: {id: ad.id}}"
                                     variant="success"
                                 >Upgrade to premium</b-button>
 
@@ -121,20 +123,20 @@
                                     </b-list-group>
                                 </b-card-text>
                                 <!-- I don't think this bid button is a good solution -->
-                                <b-button 
-                                    v-if="ad.advertiser_id != user.id && user.id != null" 
-                                    :to="{ name: 'ad.bid', params: {id: ad.id}}" 
+                                <b-button
+                                    v-if="ad.advertiser_id != user.id && user.id != null"
+                                    :to="{ name: 'ad.bid', params: {id: ad.id}}"
                                     variant="primary"
                                 >Place a bid</b-button>
 
-                                <b-button 
-                                    v-if="ad.advertiser_id != user.id && user.id != null && !activeMessageChain(ad.id)" 
+                                <b-button
+                                    v-if="ad.advertiser_id != user.id && user.id != null && !activeMessageChain(ad.id)"
                                     @click="newMessageChain(ad)"
                                     variant="primary"
                                 >Message advertiser</b-button>
 
-                                <b-button 
-                                    v-if="activeMessageChain(ad.id)" 
+                                <b-button
+                                    v-if="activeMessageChain(ad.id)"
                                     :to="{ name: 'messageChain', params: {id: activeMessageChain(ad.id)}}"
                                     variant="primary"
                                 >Show message chain</b-button>
@@ -144,7 +146,7 @@
 
                                     <b-list-group  v-for="bid in ad.bids" :key="bid.id" class="bids">
                                         <b-list-group-item>
-                                            €{{bid.amount}} 
+                                            €{{bid.amount}}
                                             By: {{bid.bidder}}
                                             Placed on: {{bid.created_at}}
                                         </b-list-group-item>
@@ -159,6 +161,8 @@
             </div>
 
             <div>
+                <!-- TODO :: this v-if should not be needed -->
+                <!-- TODO :: don't show pagination when it's not needed -->
                 <b-pagination
                     v-if="!searchBar && !categoryFilter.length && !distance"
                     v-model="currentPage"
@@ -246,6 +250,7 @@ export default {
     },
 
     methods: {
+        // TODO :: what is payload? Parameter name is to generic
         setPageNumber(payload) {
             this.currentPage = payload;
         },
@@ -267,11 +272,11 @@ export default {
 
             if (activeChain) {
                 return activeChain.id;
-            } 
+            }
 
             return false;
         },
-        
+
         adsLoaded() {
             setTimeout(() => this.loadingComplete = true, (this.adsPerPage * 400));
         },
@@ -282,7 +287,7 @@ export default {
             if (this.multiselectArray.length) {
                 this.categoryFilter = [];
                 this.multiselectArray.forEach(item => this.categoryFilter.push(item.id));
-            } 
+            }
 
             this.categoryFilter = [];
         },
@@ -294,7 +299,7 @@ export default {
 
         hasCategories(categories) {
             return function(element) {
-                return element.categories.filter(category => categories.includes(category.id)).length == categories.length 
+                return element.categories.filter(category => categories.includes(category.id)).length == categories.length
             }
         },
 
@@ -307,17 +312,17 @@ export default {
         calcDistance(adLat, adLon) {
             const R = 6371; // Radius of the earth in km
             const userLat = this.user.postalCode[0].latitude;
-            const userLon = this.user.postalCode[0].longitude; 
+            const userLon = this.user.postalCode[0].longitude;
 
             const dLat = this.deg2rad(adLat-userLat);  // deg2rad below
-            const dLon = this.deg2rad(adLon-userLon); 
+            const dLon = this.deg2rad(adLon-userLon);
 
-            const a = 
+            const a =
                 Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(this.deg2rad(userLat)) * Math.cos(this.deg2rad(adLat)) * 
+                Math.cos(this.deg2rad(userLat)) * Math.cos(this.deg2rad(adLat)) *
                 Math.sin(dLon/2) * Math.sin(dLon/2);
 
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             const d = R * c; // Distance in km
             return d;
         },
